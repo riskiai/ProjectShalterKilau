@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Kilau App Shalter</title>
+    <link rel="icon" href="assets/img/LogoKilau2.png" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/plugins.min.css" />
+    <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
+
+    <!-- Custom Style -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 0 9%;
+        }
+
+        .home {
+            display: flex;
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .home .bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.9); 
+        }
+
+        .main-content {
+            display: block;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .title {
+            font-size: 33px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9); 
+        }
+
+        .subtitle {
+            font-size: 33px;
+            color: white;
+            margin-top: -10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9); 
+        }
+
+        .title-wrapper {
+            position: absolute;
+            top: 110px; 
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 5rem;
+            font-weight: bold;
+            text-align: center;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0); 
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+
+        .outer-box {
+            justify-content: center;
+            display: flex;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .inner-box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding-top: 100px;
+        }
+
+        .colored-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+            width: 350px;
+            margin: 0 10px;
+        }
+
+        .colored-box:hover {
+            background-color: #6861CE;
+            transform: scale(1.05);
+        }
+
+        .colored-box-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .colored-box a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .colored-box i {
+            font-size: 40px;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            color: black; /* Mengubah warna ikon menjadi hitam */
+        }
+
+        .colored-box:hover i {
+            color: white; /* Jika di-hover, ikon berubah warna menjadi putih */
+            border: none; 
+            background: none; 
+            text-decoration: none;
+        }
+
+        .colored-box button span {
+            text-decoration: none;
+            border: none;
+        }
+
+        .colored-box:hover button span {
+            text-decoration: none; 
+            color: black; 
+        }
+
+        .btn-link {
+            text-decoration: none !important; 
+            color: black;
+        }
+
+        .btn-link:hover {
+            text-decoration: none !important; 
+            color: black;
+        }
+
+        .box-text {
+            font-size: 16px;
+            margin-top: 10px;
+            text-decoration: none;
+
+        }
+
+        .footer {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+    </style>
+
+</head>
+<body>
+    <section class="home">
+        <div class="title-wrapper">
+            <h1 class="title">KILAU INFORMATION SYSTEM</h1>
+            <h1 class="subtitle">KILAU INDONESIA</h1>
+        </div>
+
+        <div class="main-content">
+            <div class="outer-box">
+                <div class="inner-box">
+                    <div class="colored-box">
+                        <a href="{{ route('dashboardPemberdayaanPusat') }}">
+                            <div class="colored-box-content">
+                                <i class="bi bi-people-fill"></i>
+                                <span class="box-text">Pemberdayaan</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="colored-box">
+                        <a href="{{ route('dashboardReportPusat') }}">
+                            <div class="colored-box-content">
+                                <i class="bi bi-database"></i>
+                                <span class="box-text">Report</span>                    
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="colored-box">
+                        <a href="{{ route('dashboardSettingsPusat') }}">
+                            <div class="colored-box-content">
+                                <i class="bi bi-gear"></i> 
+                                <span class="box-text">Settings</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="colored-box">
+                        <a href="{{ route('dashboardKeuanganPusat') }}">
+                            <div class="colored-box-content">
+                                <i class="bi bi-cash-stack"></i>
+                                <span class="box-text">Keuangan</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="colored-box">
+                        <a href="{{ route('dashboardBeritaPusat') }}">
+                            <div class="colored-box-content">
+                                <i class="bi bi-newspaper"></i> <!-- icon -->
+                                <span class="box-text">Berita</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="colored-box">
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-link">
+                                <div class="colored-box-content">
+                                    <i class="bi bi-box-arrow-left"></i> <!-- icon -->
+                                    <span class="box-text">Logout</span>
+                                </div>
+                            </button>
+                        </form>
+                    </div>
+                                     
+                    
+                </div>
+            </div>
+        </div>
+
+        <img class="bg" src="{{ asset('assets/img/BG.jpg') }}">
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Kilau Information System. All rights reserved.</p>
+    </footer>
+
+    <!-- Core JS Files -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="assets/js/core/jquery-3.7.1.min.js"></script>
+    <script src="assets/js/core/popper.min.js"></script>
+    <script src="assets/js/core/bootstrap.min.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const coloredBoxes = document.querySelectorAll(".colored-box");
+
+            coloredBoxes.forEach((box) => {
+                box.addEventListener("click", function () {
+                    // Hapus class "clicked" dari semua kotak sebelumnya
+                    coloredBoxes.forEach((otherBox) => {
+                        otherBox.classList.remove("clicked");
+                    });
+
+                    // Tambahkan class "clicked" pada kotak yang diklik
+                    this.classList.add("clicked");
+                });
+            });
+        });
+    </script>
+
+    @if ($message = Session::get('success'))
+    <script>
+        Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "{{ $message }}",
+        });
+    </script>
+    @endif
+</body>
+</html>
