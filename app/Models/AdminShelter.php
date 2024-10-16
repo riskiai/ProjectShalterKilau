@@ -9,7 +9,10 @@ class AdminShelter extends Model
 {
     use HasFactory;
 
-    protected $table = 'admin_shelter'; // Nama tabel
+    protected $table = 'admin_shelter'; // The table name
+
+    // Specify the primary key
+    protected $primaryKey = 'id_admin_shelter'; 
 
     protected $fillable = [
         'user_id', 
@@ -22,33 +25,29 @@ class AdminShelter extends Model
         'foto'
     ];
 
+    // Accessor for the photo URL
+    public function getFotoUrlAttribute() {
+        return $this->foto ? asset('storage/AdminShelter/Shelter/' . $this->foto) : asset('images/default.png'); 
+    }
+
     /**
-     * Relasi ke tabel users.
+     * Relationships to other models.
      */
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    /**
-     * Relasi ke tabel kacab.
-     */
     public function kacab()
     {
         return $this->belongsTo(Kacab::class, 'id_kacab');
     }
 
-    /**
-     * Relasi ke tabel wilbin.
-     */
     public function wilbin()
     {
         return $this->belongsTo(Wilbin::class, 'id_wilbin');
     }
 
-    /**
-     * Relasi ke tabel shelter.
-     */
     public function shelter()
     {
         return $this->belongsTo(Shelter::class, 'id_shelter');

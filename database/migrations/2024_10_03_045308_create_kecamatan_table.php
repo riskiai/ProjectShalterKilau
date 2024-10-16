@@ -12,12 +12,12 @@ class CreateKecamatanTable extends Migration
     public function up(): void
     {
         Schema::create('kecamatan', function (Blueprint $table) {
-            $table->id('id_kec'); // Primary key
-            $table->unsignedBigInteger('id_kab');
-            $table->string('nama'); // Nama kecamatan
+            $table->char('id_kec', 6)->unique(); // Primary key dengan char(6)
+            $table->char('id_kab', 4); // Relasi ke kabupaten dengan char(4)
+            $table->string('nama', 255); // Nama kecamatan, menggunakan varchar(255) untuk fleksibilitas
             $table->timestamps();
 
-            // Definisikan foreign key secara eksplisit
+            // Definisikan foreign key untuk id_kab
             $table->foreign('id_kab')->references('id_kab')->on('kabupaten')->onDelete('cascade');
         });
     }

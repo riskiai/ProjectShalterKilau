@@ -13,11 +13,6 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
 
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="assets/css/plugins.min.css" />
-    <link rel="stylesheet" href="assets/css/kaiadmin.min.css" />
-
     <!-- Custom Style -->
     <style>
         body {
@@ -62,7 +57,7 @@
         .subtitle {
             font-size: 33px;
             color: white;
-            margin-top: -10px;
+            margin-top: -30px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9); 
         }
 
@@ -91,7 +86,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
-            padding-top: 100px;
+            padding-top: 130px;
         }
 
         /* Make the colored-boxes as wide as the text "Kilau Information System" */
@@ -130,16 +125,12 @@
             font-size: 40px;
             margin-bottom: 10px;
             margin-top: 10px;
-        }
-
-        .colored-box button span {
-            text-decoration: none;
             color: black;
         }
 
-        .colored-box:hover button span {
-            text-decoration: none; 
-            color: black; 
+        
+        .colored-box:hover i {
+            color: white;
         }
 
         .btn-link {
@@ -150,7 +141,31 @@
 
         .btn-link:hover {
             text-decoration: none !important; 
+            color: white;
+        }
+
+        /* Style khusus tombol logout */
+        .btn-logout {
+            background: none;
+            border: none;
+            color: inherit;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .btn-logout i {
+            font-size: 40px;
+            margin-bottom: 10px;
+            margin-top: 10px;
             color: black;
+        }
+
+        .btn-logout:hover i {
+            color: white;
         }
 
         .box-text {
@@ -213,9 +228,9 @@
                     <div class="colored-box">
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
-                            <button type="submit" class="btn btn-link">
+                            <button type="submit" class="btn-logout">
                                 <div class="colored-box-content">
-                                    <i class="bi bi-box-arrow-left"></i> <!-- icon -->
+                                    <i class="bi bi-box-arrow-left"></i>
                                     <span class="box-text">Logout</span>
                                 </div>
                             </button>
@@ -233,11 +248,11 @@
         <p>&copy; 2024 Kilau Information System. All rights reserved.</p>
     </footer>
 
-    <!-- Core JS Files -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="assets/js/core/jquery-3.7.1.min.js"></script>
-    <script src="assets/js/core/popper.min.js"></script>
-    <script src="assets/js/core/bootstrap.min.js"></script>
+      <!-- Core JS Files -->
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script src="{{ asset('assets/js/core/jquery-3.7.1.min.js') }}"></script>
+      <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
+      <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {

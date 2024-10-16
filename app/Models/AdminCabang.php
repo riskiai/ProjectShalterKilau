@@ -11,6 +11,8 @@ class AdminCabang extends Model
 
     protected $table = 'admin_cabang'; // Nama tabel
 
+    protected $primaryKey = 'id_admin_cabang'; 
+
     protected $fillable = [
         'user_id', 
         'id_kacab', 

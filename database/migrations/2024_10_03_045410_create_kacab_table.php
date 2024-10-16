@@ -16,13 +16,16 @@ class CreateKacabTable extends Migration
             $table->string('nama_kacab');
             $table->string('no_telpon');
             $table->text('alamat');
-            $table->unsignedBigInteger('id_prov');
-            $table->unsignedBigInteger('id_kab');
-            $table->unsignedBigInteger('id_kec');
-            $table->unsignedBigInteger('id_kel');
+            
+            // Kolom dengan tipe data yang disesuaikan dengan tabel referensi
+            $table->char('id_prov', 2); 
+            $table->char('id_kab', 4);
+            $table->char('id_kec', 6);
+            $table->char('id_kel', 10);
+            
             $table->timestamps();
 
-            // Definisikan foreign key secara eksplisit
+            // Definisikan foreign key
             $table->foreign('id_prov')->references('id_prov')->on('provinsi')->onDelete('cascade');
             $table->foreign('id_kab')->references('id_kab')->on('kabupaten')->onDelete('cascade');
             $table->foreign('id_kec')->references('id_kec')->on('kecamatan')->onDelete('cascade');

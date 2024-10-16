@@ -12,12 +12,13 @@ class CreateKelurahanTable extends Migration
     public function up(): void
     {
         Schema::create('kelurahan', function (Blueprint $table) {
-            $table->id('id_kel'); // Primary key
-            $table->unsignedBigInteger('id_kec');
-            $table->string('nama'); // Nama kelurahan
+            $table->char('id_kel', 10)->unique(); // Primary key dengan char(10)
+            $table->char('id_kec', 6)->nullable(); // Relasi ke kecamatan dengan char(6)
+            $table->string('nama', 255)->nullable(); // Nama kelurahan
+            $table->unsignedInteger('id_jenis'); // Kolom tambahan sesuai dengan SQL
             $table->timestamps();
 
-            // Definisikan foreign key secara eksplisit
+            // Definisikan foreign key untuk id_kec
             $table->foreign('id_kec')->references('id_kec')->on('kecamatan')->onDelete('cascade');
         });
     }

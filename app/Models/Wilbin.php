@@ -11,6 +11,8 @@ class Wilbin extends Model
 
     protected $table = 'wilbin'; // Nama tabel
 
+    protected $primaryKey = 'id_wilbin'; 
+
     protected $fillable = ['nama_wilbin', 'id_kacab']; 
 
     /**

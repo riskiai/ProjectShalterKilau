@@ -7,16 +7,9 @@ use Illuminate\Support\Facades\DB;
 
 class ProvinsiSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    public function run()
     {
-        // Masukkan beberapa contoh data provinsi
-        DB::table('provinsi')->insert([
-            ['nama' => 'Jawa Barat', 'created_at' => now(), 'updated_at' => now()],
-            ['nama' => 'Jawa Tengah', 'created_at' => now(), 'updated_at' => now()],
-            ['nama' => 'Jawa Timur', 'created_at' => now(), 'updated_at' => now()],
-        ]);
+        $path = database_path('seeders/provinsi.sql');
+        DB::unprepared(file_get_contents($path));
     }
 }

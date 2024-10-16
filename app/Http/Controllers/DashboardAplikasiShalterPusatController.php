@@ -20,6 +20,6 @@ class DashboardAplikasiShalterPusatController extends Controller
 
     /* Dashboard Admin Cabang */
     public function dashboardCabang() {
-        return view('AdminCabang.dashboardAplikasiShalterCabang');
+        return view('AdminCabang.dashboardAplikasiShaltersCabang');
     }
 }

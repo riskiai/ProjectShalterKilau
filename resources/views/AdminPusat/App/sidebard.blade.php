@@ -26,7 +26,7 @@
                 {{-- Kondisi Dashboard --}}
                 <li class="nav-item {{ request()->routeIs('dashboardPemberdayaanPusat') || request()->routeIs('dashboardSettingsPusat') || request()->routeIs('dashboardReportPusat') || request()->routeIs('dashboardKeuanganPusat') || request()->routeIs('dashboardBeritaPusat') ? 'active' : '' }}">
                     {{-- Jika sedang di halaman settings, arahkan ke dashboard settings --}}
-                    @if(Str::startsWith(Route::currentRouteName(), 'dashboardSettingsPusat') || Str::startsWith(Route::currentRouteName(), 'alquran'))
+                    @if(Str::startsWith(Route::currentRouteName(), 'dashboardSettingsPusat') || Str::startsWith(Route::currentRouteName(), 'alquran') || Str::startsWith(Route::currentRouteName(), 'bank') || Str::startsWith(Route::currentRouteName(), 'levelbinaan') || Str::startsWith(Route::currentRouteName(), 'materi') || Str::startsWith(Route::currentRouteName(), 'kegiatan') || Str::startsWith(Route::currentRouteName(), 'struktur') || Str::startsWith(Route::currentRouteName(), 'kantor_cabang')|| Str::startsWith(Route::currentRouteName(), 'wilayah_binaan') || Str::startsWith(Route::currentRouteName(), 'sdm') || Str::startsWith(Route::currentRouteName(), 'data_shalter') || Str::startsWith(Route::currentRouteName(), 'tutor') || Str::startsWith(Route::currentRouteName(), 'absen_anak') || Str::startsWith(Route::currentRouteName(), 'absen_tutor')|| Str::startsWith(Route::currentRouteName(), 'pengajuan_donatur')|| Str::startsWith(Route::currentRouteName(), 'pengajuan_donatur_npb')|| Str::startsWith(Route::currentRouteName(), 'donatur')|| Str::startsWith(Route::currentRouteName(), 'admin_shelter')|| Str::startsWith(Route::currentRouteName(), 'admin_cabang'))
                         <a href="{{ route('dashboardSettingsPusat') }}">
                             <i class="fas fa-tachometer-alt"></i>
                             <p>Dashboard Settings</p>
@@ -88,98 +88,195 @@
                 </li>
                 @endif
 
-                {{-- Sidebar Settings Admin Pusat --}}
-                @if(Str::startsWith(Route::currentRouteName(), 'dashboardSettingsPusat') || Str::startsWith(Route::currentRouteName(), 'alquran'))
+                        <!-- Sidebar Settings Admin Pusat -->
+                        @if(Str::startsWith(Route::currentRouteName(), 'dashboardSettingsPusat') || 
+                        Str::startsWith(Route::currentRouteName(), 'alquran') || 
+                        Str::startsWith(Route::currentRouteName(), 'bank') || 
+                        Str::startsWith(Route::currentRouteName(), 'levelbinaan') || 
+                        Str::startsWith(Route::currentRouteName(), 'materi') || 
+                        Str::startsWith(Route::currentRouteName(), 'kegiatan') || 
+                        Str::startsWith(Route::currentRouteName(), 'struktur') || 
+                        Str::startsWith(Route::currentRouteName(), 'kantor_cabang') || 
+                        Str::startsWith(Route::currentRouteName(), 'wilayah_binaan')|| 
+                        Str::startsWith(Route::currentRouteName(), 'sdm')|| 
+                        Str::startsWith(Route::currentRouteName(), 'data_shalter')|| 
+                        Str::startsWith(Route::currentRouteName(), 'tutor')|| 
+                        Str::startsWith(Route::currentRouteName(), 'absen_anak')|| 
+                        Str::startsWith(Route::currentRouteName(), 'absen_tutor')|| 
+                        Str::startsWith(Route::currentRouteName(), 'pengajuan_donatur')|| 
+                        Str::startsWith(Route::currentRouteName(), 'pengajuan_donatur_npb')|| 
+                        Str::startsWith(Route::currentRouteName(), 'donatur')|| 
+                        Str::startsWith(Route::currentRouteName(), 'admin_shelter')|| 
+                        Str::startsWith(Route::currentRouteName(), 'admin_cabang')) 
 
-              <!-- Master Data -->
-                <li class="nav-item {{ request()->routeIs('alquran') ? 'active' : '' }}">
-                    <a data-bs-toggle="collapse" href="#masterData" class="{{ request()->routeIs('alquran') ? 'active' : '' }}">
-                        <i class="fas fa-database"></i>
-                        <p>Master Data</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse {{ request()->routeIs('alquran') ? 'show' : '' }}" id="masterData">
-                        <ul class="nav nav-collapse">
-                            <!-- Submenu Baca Al-Qur'an -->
-                            <li>
-                                <a href="{{ route('alquran') }}" 
-                                   class="{{ request()->routeIs('alquran') ? 'active' : '' }}" 
-                                   style="{{ request()->routeIs('alquran') ? 'color: blue; font-weight: bold;' : '' }}">
-                                    <span class="sub-item">Baca Al-Qur'an</span>
-                                </a>
-                            </li>
-                            
-                            <li><a href="#"><span class="sub-item">Bank</span></a></li>
-                            <li><a href="#"><span class="sub-item">Level Binaan</span></a></li>
-                            <li><a href="#"><span class="sub-item">Materi (Kurikulum)</span></a></li>
-                            <li><a href="#"><span class="sub-item">Kegiatan</span></a></li>
-                            <li><a href="#"><span class="sub-item">Struktur Organisasi</span></a></li>
-                            <li><a href="#"><span class="sub-item">Sumber Daya Manusia</span></a></li>
-                        </ul>
-                    </div>
-                </li>
+                        <!-- Master Data -->
+                        <li class="nav-item {{ request()->routeIs('alquran') || request()->routeIs('bank') || request()->routeIs('levelbinaan') || request()->routeIs('materi') || request()->routeIs('kegiatan') || request()->routeIs('struktur') || request()->routeIs('sdm') || request()->routeIs('sdm.create') || request()->routeIs('sdm.edit') ? 'active' : '' }}">
 
-                <!-- Data Wilayah -->
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#dataWilayah">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <p>Data Wilayah</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="dataWilayah">
-                        <ul class="nav nav-collapse">
-                            <li><a href="#"><span class="sub-item">Kantor Cabang</span></a></li>
-                            <li><a href="#"><span class="sub-item">Wilayah Binaan</span></a></li>
-                            <li><a href="#"><span class="sub-item">Data Shalter</span></a></li>
+                        <a data-bs-toggle="collapse" href="#masterData" class="{{ request()->routeIs('alquran') || request()->routeIs('bank') || request()->routeIs('levelbinaan') || request()->routeIs('materi') || request()->routeIs('kegiatan') || request()->routeIs('struktur') || request()->routeIs('sdm') || request()->routeIs('sdm.create') || request()->routeIs('sdm.edit') ? 'active' : '' }}">
+                            <i class="fas fa-database"></i>
+                            <p>Master Data</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse {{ request()->routeIs('alquran') || request()->routeIs('bank') || request()->routeIs('levelbinaan') || request()->routeIs('materi') || request()->routeIs('kegiatan') || request()->routeIs('struktur') || request()->routeIs('sdm') || request()->routeIs('sdm.create') || request()->routeIs('sdm.edit') ? 'show' : '' }}" id="masterData">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="{{ route('alquran') }}" class="{{ request()->routeIs('alquran') ? 'active' : '' }}" style="{{ request()->routeIs('alquran') ? 'color: blue; font-weight: bold;' : '' }}">
+                                        <span class="sub-item">Baca Al-Qur'an</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('bank') }}" class="{{ request()->routeIs('bank') ? 'active' : '' }}" style="{{ request()->routeIs('bank') ? 'color: blue; font-weight: bold;' : '' }}">
+                                        <span class="sub-item">Bank</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('levelbinaan') }}" class="{{ request()->routeIs('levelbinaan') ? 'active' : '' }}" style="{{ request()->routeIs('levelbinaan') ? 'color: blue; font-weight: bold;' : '' }}">
+                                        <span class="sub-item">Level Binaan</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('materi') }}" class="{{ request()->routeIs('materi') ? 'active' : '' }}" style="{{ request()->routeIs('materi') ? 'color: blue; font-weight: bold;' : '' }}">
+                                        <span class="sub-item">Materi (Kurikulum)</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('kegiatan') }}" class="{{ request()->routeIs('kegiatan') ? 'active' : '' }}" style="{{ request()->routeIs('kegiatan') ? 'color: blue; font-weight: bold;' : '' }}">
+                                        <span class="sub-item">Kegiatan</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('struktur') }}" class="{{ request()->routeIs('struktur') ? 'active' : '' }}" style="{{ request()->routeIs('struktur') ? 'color: blue; font-weight: bold;' : '' }}">
+                                        <span class="sub-item">Struktur Organisasi</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('sdm') }}" class="{{ request()->routeIs('sdm') || request()->routeIs('sdm.create') || request()->routeIs('sdm.edit') ? 'active' : '' }}" style="{{ request()->routeIs('sdm') || request()->routeIs('sdm.create') || request()->routeIs('sdm.edit') ? 'color: blue; font-weight: bold;' : '' }}"">
+                                        <span class="sub-item">Sumber Daya Manusia</span>
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                        </li>
+
+                        <!-- Data Wilayah -->
+                        <li class="nav-item {{ 
+                        request()->routeIs('kantor_cabang') || request()->routeIs('kantor_cabang.create') || request()->routeIs('kantor_cabang.edit') || request()->routeIs('wilayah_binaan') || request()->routeIs('wilayah_binaan.create') || request()->routeIs('wilayah_binaan.edit') || request()->routeIs('data_shalter') || request()->routeIs('data_shalter.create') || request()->routeIs('data_shalter.edit') ? 'active' : '' }}">
+                       
+                        <a data-bs-toggle="collapse" href="#dataWilayah" class="{{ 
+                            request()->routeIs('kantor_cabang') || request()->routeIs('kantor_cabang.create') || request()->routeIs('kantor_cabang.edit') || request()->routeIs('wilayah_binaan') || request()->routeIs('wilayah_binaan.create') || request()->routeIs('wilayah_binaan.edit') || request()->routeIs('data_shalter') || request()->routeIs('data_shalter.create') || request()->routeIs('data_shalter.edit') ? 'active' : '' }}">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>Data Wilayah</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse {{ 
+                        request()->routeIs('kantor_cabang') || request()->routeIs('kantor_cabang.create') || request()->routeIs('kantor_cabang.edit') ||  request()->routeIs('wilayah_binaan') || request()->routeIs('wilayah_binaan.create') || request()->routeIs('wilayah_binaan.edit') ||  request()->routeIs('data_shalter') || request()->routeIs('data_shalter.create') || request()->routeIs('data_shalter.edit') ? 'show' : '' }}" id="dataWilayah">
+                            <ul class="nav nav-collapse">
+                                <li>
+                                    <a href="{{ route('kantor_cabang') }}" class="{{ request()->routeIs('kantor_cabang') || request()->routeIs('kantor_cabang.create') || request()->routeIs('kantor_cabang.edit') ? 'active' : '' }}" style="{{ request()->routeIs('kantor_cabang') || request()->routeIs('kantor_cabang.create') || request()->routeIs('kantor_cabang.edit') ? 'color: blue; font-weight: bold;' : '' }}">
+                                        <span class="sub-item">Kantor Cabang</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('wilayah_binaan') }}" class="{{ request()->routeIs('kantor_cabang') || request()->routeIs('wilayah_binaan.create') || request()->routeIs('wilayah_binaan.edit') ? 'active' : '' }}" style="{{ request()->routeIs('wilayah_binaan') || request()->routeIs('wilayah_binaan.create') || request()->routeIs('wilayah_binaan.edit') ? 'color: blue; font-weight: bold;' : '' }}">
+                                        <span class="sub-item">Wilayah Binaan</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('data_shalter') }}" class="{{ 
+                                        request()->routeIs('data_shalter') || request()->routeIs('data_shalter.create') || request()->routeIs('data_shalter.edit') ? 'active' : '' }}" style="{{ request()->routeIs('data_shalter') || request()->routeIs('data_shalter.create') || request()->routeIs('data_shalter.edit') ? 'color: blue; font-weight: bold;' : '' }}">
+                                        <span class="sub-item">Data Shelter</span>
+                                    </a>
+                                </li>
                         </ul>
                     </div>
                 </li>
 
                 <!-- Anak dan Tutor -->
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#anakTutor">
+                <li class="nav-item {{ request()->routeIs('tutor') || request()->routeIs('tutor.create') || request()->routeIs('tutor.edit') || request()->routeIs('absen_anak') || request()->routeIs('absen_anak.edit') || request()->routeIs('absen_tutor') || request()->routeIs('absen_tutor.edit') ? 'active' : '' }}">
+
+                    <a data-bs-toggle="collapse" href="#anakTutor" class=" {{ 
+                      request()->routeIs('tutor') || request()->routeIs('tutor.create') || request()->routeIs('tutor.edit') || request()->routeIs('absen_anak') || request()->routeIs('absen_anak.edit') || request()->routeIs('absen_tutor') || request()->routeIs('absen_tutor.edit') ? 'active' : ''}}">
                         <i class="fas fa-user-friends"></i>
                         <p>Anak dan Tutor</p>                
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="anakTutor">
+                    <div class="collapse {{ 
+                            request()->routeIs('tutor') || request()->routeIs('tutor.create') || request()->routeIs('tutor.edit') || request()->routeIs('absen_anak') || request()->routeIs('absen_anak.edit') || request()->routeIs('absen_tutor') || request()->routeIs('absen_tutor.edit')  ? 'show' : ''}}" id="anakTutor">
                         <ul class="nav nav-collapse">
-                            <li><a href="#"><span class="sub-item">Data Tutor</span></a></li>
-                            <li><a href="#"><span class="sub-item">Absensi User Anak</span></a></li>
-                            <li><a href="#"><span class="sub-item">Absensi User Tutor</span></a></li>
+                            <li>
+                                <a href="{{ route('tutor') }}" class="{{ request()->routeIs('tutor') || request()->routeIs('tutor.create') || request()->routeIs('tutor.edit') ? 'active' : '' }}" style="{{ request()->routeIs('tutor') || request()->routeIs('tutor.create') || request()->routeIs('tutor.edit') ? 'color: blue; font-weight: bold;' : '' }}">
+                                    <span class="sub-item">Data Tutor</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('absen_anak') }}" class="{{ request()->routeIs('absen_anak')  || request()->routeIs('absen_anak.edit') ? 'active' : '' }}" style="{{ request()->routeIs('absen_anak') || request()->routeIs('absen_anak.edit') ? 'color: blue; font-weight: bold;' : '' }}">
+                                    <span class="sub-item">Absensi User Anak</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('absen_tutor') }}" class="{{ request()->routeIs('absen_tutor')  || request()->routeIs('absen_tutor.edit') ? 'active' : '' }}" style="{{ request()->routeIs('absen_tutor') || request()->routeIs('absen_tutor.edit') ? 'color: blue; font-weight: bold;' : '' }}">
+                                    <span class="sub-item">Absensi User Tutor</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
 
                  <!-- Pengajuan Donatur -->
-                 <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#pengajuanDonatur">
+                 <li class="nav-item {{ request()->routeIs('pengajuan_donatur') || request()->routeIs('pengajuan_donatur.tambah_donatur') || request()->routeIs('pengajuan_donatur_npb') || request()->routeIs('pengajuan_donatur_npb.tambah_donatur') ? 'active' : '' }}">
+                    <a data-bs-toggle="collapse" href="#pengajuanDonatur" class=" {{ 
+                      request()->routeIs('pengajuan_donatur') || request()->routeIs('pengajuan_donatur.tambah_donatur') || request()->routeIs('pengajuan_donatur_npb') || request()->routeIs('pengajuan_donatur_npb.tambah_donatur') ? 'active' : ''}}">
                         <i class="fas fa-hand-holding-heart"></i>
                         <p>Pengajuan Donatur</p>                
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="pengajuanDonatur">
+                    <div class="collapse {{ 
+                            request()->routeIs('pengajuan_donatur') || request()->routeIs('pengajuan_donatur.tambah_donatur') || request()->routeIs('pengajuan_donatur_npb') || request()->routeIs('pengajuan_donatur_npb.tambah_donatur')  ? 'show' : ''}}" id="pengajuanDonatur">
                         <ul class="nav nav-collapse">
-                            <li><a href="#"><span class="sub-item">Pengajuan Donatur (Penerima Beasiswa)</span></a></li>
-                            <li><a href="#"><span class="sub-item">Pengajuan Donatur (Non Penerimaan Beasiswa)</span></a></li>
+                            <li>
+                                <a href="{{ route('pengajuan_donatur') }}" class="{{ request()->routeIs('pengajuan_donatur') || request()->routeIs('pengajuan_donatur.tambah_donatur') ? 'active' : '' }}" style="{{ request()->routeIs('pengajuan_donatur') || request()->routeIs('pengajuan_donatur.tambah_donatur') ? 'color: blue; font-weight: bold;' : '' }}">
+                                    <span class="sub-item">Pengajuan Donatur (Penerima Beasiswa)</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('pengajuan_donatur_npb') }}" class="{{ request()->routeIs('pengajuan_donatur_npb') || request()->routeIs('pengajuan_donatur_npb.tambah_donatur') ? 'active' : '' }}" style="{{ request()->routeIs('pengajuan_donatur_npb') || request()->routeIs('pengajuan_donatur_npb.tambah_donatur') ? 'color: blue; font-weight: bold;' : '' }}">
+                                    <span class="sub-item">Pengajuan Donatur (Non Penerimaan Beasiswa)</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
 
                 <!-- User Management -->
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#userManagement">
+                <li class="nav-item {{ request()->routeIs('donatur') || request()->routeIs('donatur.create') || request()->routeIs('donatur.show') || request()->routeIs('donatur.edit') || request()->routeIs('admin_shelter') || request()->routeIs('admin_shelter.create') || request()->routeIs('admin_shelter.show') || request()->routeIs('admin_shelter.edit') || request()->routeIs('admin_cabang') || request()->routeIs('admin_cabang.create') || request()->routeIs('admin_cabang.show') || request()->routeIs('admin_cabang.edit') ? 'active' : '' }}">
+
+                    <a data-bs-toggle="collapse" href="#userManagement" class=" {{ request()->routeIs('donatur') || request()->routeIs('donatur.create') || request()->routeIs('donatur.tambah_show') || request()->routeIs('donatur.edit') || request()->routeIs('admin_shelter') || request()->routeIs('admin_shelter.create') || request()->routeIs('admin_shelter.show') || request()->routeIs('admin_shelter.edit') || request()->routeIs('admin_cabang') || request()->routeIs('admin_cabang.create') || request()->routeIs('admin_cabang.show') || request()->routeIs('admin_cabang.edit') ? 'active' : ''}}">
                         <i class="fas fa-users"></i>
                         <p>User Management</p>
                         <span class="caret"></span>
                     </a>
-                    <div class="collapse" id="userManagement">
+                    <div class="collapse {{ 
+                            request()->routeIs('donatur') || request()->routeIs('donatur.show') || request()->routeIs('donatur.create') || request()->routeIs('donatur.edit') || request()->routeIs('admin_shelter') || request()->routeIs('admin_shelter.show') || request()->routeIs('admin_shelter.create') || request()->routeIs('admin_shelter.edit') || request()->routeIs('admin_cabang') || request()->routeIs('admin_cabang.show') || request()->routeIs('admin_cabang.create') || request()->routeIs('admin_cabang.edit')  ? 'show' : ''}}" id="userManagement">
+                           
                         <ul class="nav nav-collapse">
-                            <li><a href="#"><span class="sub-item">User Donatur</span></a></li>
-                            <li><a href="#"><span class="sub-item">User Guru</span></a></li>
-                            <li><a href="#"><span class="sub-item">User Admin Shelter</span></a></li>
-                            <li><a href="#"><span class="sub-item">User Admin Cabang</span></a></li>
+                            <li>
+                                <a href="{{ route('donatur') }}" class="{{ request()->routeIs('donatur') || request()->routeIs('donatur.show') || request()->routeIs('donatur.create') || request()->routeIs('donatur.edit') ? 'active' : '' }}" style="{{ request()->routeIs('donatur') || request()->routeIs('donatur.show') || request()->routeIs('donatur.create') || request()->routeIs('donatur.edit') ? 'color: blue; font-weight: bold;' : '' }}">
+                                    <span class="sub-item">User Donatur</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin_shelter') }}" class="{{ request()->routeIs('admin_shelter') || request()->routeIs('admin_shelter.show') || request()->routeIs('admin_shelter.create') || request()->routeIs('admin_shelter.edit') ? 'active' : '' }}" style="{{ request()->routeIs('admin_shelter') || request()->routeIs('admin_shelter.show') || request()->routeIs('admin_shelter.create') || request()->routeIs('admin_shelter.edit') ? 'color: blue; font-weight: bold;' : '' }}">
+                                    <span class="sub-item">User Admin Shelter</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin_cabang') }}" class="{{ request()->routeIs('admin_cabang') || request()->routeIs('admin_cabang.show') || request()->routeIs('admin_cabang.create') || request()->routeIs('admin_cabang.edit') ? 'active' : '' }}" style="{{ request()->routeIs('admin_cabang') || request()->routeIs('admin_cabang.show') || request()->routeIs('admin_cabang.create') || request()->routeIs('admin_cabang.edit') ? 'color: blue; font-weight: bold;' : '' }}">
+                                    <span class="sub-item">User Admin Cabang</span>
+                                </a>
+                            </li>
                             <li><a href="#"><span class="sub-item">User Admin Pusat</span></a></li>
+                            {{-- <li><a href="#"><span class="sub-item">User Guru</span></a></li> --}}
                         </ul>
                     </div>
                 </li>

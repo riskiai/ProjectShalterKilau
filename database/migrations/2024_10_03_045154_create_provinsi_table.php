@@ -6,21 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateProvinsiTable extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('provinsi', function (Blueprint $table) {
-            $table->id('id_prov'); // Custom primary key
-            $table->string('nama'); // Nama provinsi
+            $table->char('id_prov', 2)->unique(); // Tambahkan index unique
+            $table->string('nama', 255);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('provinsi');

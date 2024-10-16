@@ -10,6 +10,7 @@ class Shelter extends Model
     use HasFactory;
 
     protected $table = 'shelter'; // Nama tabel
+    protected $primaryKey = 'id_shelter'; 
 
     protected $fillable = ['nama_shelter', 'nama_kordinator', 'no_telpon', 'alamat', 'id_wilbin']; // Kolom yang bisa diisi
 
@@ -19,5 +20,10 @@ class Shelter extends Model
     public function wilbin()
     {
         return $this->belongsTo(Wilbin::class, 'id_wilbin');
+    }
+
+    public function tutors()
+    {
+        return $this->hasMany(Tutor::class, 'id_shelter');
     }
 }

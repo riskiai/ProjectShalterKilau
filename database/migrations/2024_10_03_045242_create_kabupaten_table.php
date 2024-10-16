@@ -12,15 +12,14 @@ class CreateKabupatenTable extends Migration
     public function up(): void
     {
         Schema::create('kabupaten', function (Blueprint $table) {
-            $table->id('id_kab'); // Primary key
-            $table->unsignedBigInteger('id_prov');
-            $table->unsignedBigInteger('id_jenis');
-            $table->string('nama'); // Nama kabupaten
+            $table->char('id_kab', 4)->unique(); // Ubah jadi unique
+            $table->char('id_prov', 2); // Relasi ke provinsi dengan char(2)
+            $table->string('nama', 255); // Nama kabupaten
+            $table->integer('id_jenis')->unsigned(); // Jenis ID dengan tipe integer
             $table->timestamps();
 
             // Definisikan foreign key secara eksplisit
             $table->foreign('id_prov')->references('id_prov')->on('provinsi')->onDelete('cascade');
-            $table->foreign('id_jenis')->references('id_jenis')->on('jenis')->onDelete('cascade');
         });
     }
 

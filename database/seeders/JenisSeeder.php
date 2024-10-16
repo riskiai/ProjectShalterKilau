@@ -12,10 +12,12 @@ class JenisSeeder extends Seeder
      */
     public function run(): void
     {
-        // Masukkan beberapa contoh data jenis
+        // Masukkan data jenis administratif yang ada di Indonesia
         DB::table('jenis')->insert([
-            ['nama' => 'Kabupaten', 'created_at' => now(), 'updated_at' => now()],
-            ['nama' => 'Kota', 'created_at' => now(), 'updated_at' => now()],
+            ['nama' => 'kabupaten', 'created_at' => now(), 'updated_at' => now()],
+            ['nama' => 'kota', 'created_at' => now(), 'updated_at' => now()],
+            ['nama' => 'kelurahan', 'created_at' => now(), 'updated_at' => now()],
+            ['nama' => 'desa', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }
