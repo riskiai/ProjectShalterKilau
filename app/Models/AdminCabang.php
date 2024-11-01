@@ -13,6 +13,8 @@ class AdminCabang extends Model
 
     protected $primaryKey = 'id_admin_cabang'; 
 
+    
+
     protected $fillable = [
         'user_id', 
         'id_kacab', 

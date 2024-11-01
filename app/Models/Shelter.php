@@ -26,4 +26,9 @@ class Shelter extends Model
     {
         return $this->hasMany(Tutor::class, 'id_shelter');
     }
+
+    public function kelompok()
+    {
+        return $this->hasMany(Kelompok::class, 'id_shelter');
+    }
 }

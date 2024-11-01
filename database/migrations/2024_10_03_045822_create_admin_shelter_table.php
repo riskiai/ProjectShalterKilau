@@ -24,7 +24,7 @@ class CreateAdminShelterTable extends Migration
             $table->timestamps();
 
             // Definisikan foreign key secara eksplisit
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id_users')->on('users')->onDelete('cascade');
             $table->foreign('id_kacab')->references('id_kacab')->on('kacab')->onDelete('cascade');
             $table->foreign('id_wilbin')->references('id_wilbin')->on('wilbin')->onDelete('cascade');
             $table->foreign('id_shelter')->references('id_shelter')->on('shelter')->onDelete('cascade');

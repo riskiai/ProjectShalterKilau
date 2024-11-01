@@ -44,7 +44,7 @@
 
 </head>
 <body>
-   <div class="wrapper">
+   <div class="wrapper" style="padding-bottom: 50px;">
     @include('AdminPusat.App.sidebard')
 
       <div class="main-panel">
@@ -60,6 +60,7 @@
 </body>
   
     <!--   Core JS Files   -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets/js/core/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
     <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
@@ -96,7 +97,15 @@
     <script src="{{ asset('assets/js/setting-demo.js') }}"></script>
     <script src="{{ asset('assets/js/demo.js') }}"></script>
 
-   
+    @if ($message = Session::get('success'))
+    <script>
+        Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: "{{ $message }}",
+        });
+    </script>
+    @endif
     
     @yield('scripts')
 </html>

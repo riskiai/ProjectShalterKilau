@@ -76,7 +76,7 @@ class DonaturController extends Controller
 
         // Buat data donatur
         Donatur::create([
-            'id_users' => $user->id,
+            'id_users' => $user->id_users,
             'id_kacab' => $request->id_kacab,
             'id_wilbin' => $request->id_wilbin,
             'id_shelter' => $request->id_shelter,
@@ -138,7 +138,7 @@ class DonaturController extends Controller
     
         // Validasi data
         $request->validate([
-            'email' => 'required|email|unique:users,email,' . $donatur->user->id,
+            'email' => 'required|email|unique:users,email,' . $donatur->user->id_users . ',id_users',
             'password' => 'nullable|min:6',
             'id_kacab' => 'required',
             'id_wilbin' => 'required',

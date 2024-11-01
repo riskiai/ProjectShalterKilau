@@ -29,10 +29,10 @@
             <div class="col-md-8 offset-md-2">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Edit Data Admin Shelter</h4>
+                        <h4 class="card-title">Edit Data Admin Cabang</h4>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('admin_shelter.update', $adminshelter->id_admin_shelter) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('admin_cabang.update', $adminshelter->id_admin_cabang) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             
@@ -72,31 +72,7 @@
                                 </select>
                             </div>
 
-                            <!-- Dropdown untuk Wilayah Binaan -->
-                            <div class="form-group">
-                                <label>Wilayah Binaan</label>
-                                <select name="id_wilbin" id="wilbin" class="form-control" required>
-                                    @foreach($wilbin as $wil)
-                                        <option value="{{ $wil->id_wilbin }}" {{ $adminshelter->id_wilbin == $wil->id_wilbin ? 'selected' : '' }}>
-                                            {{ $wil->nama_wilbin }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- Dropdown untuk Shelter -->
-                            <div class="form-group">
-                                <label>Shelter</label>
-                                <select name="id_shelter" id="shelter" class="form-control" required>
-                                    @foreach($shelters as $shelter)
-                                        <option value="{{ $shelter->id_shelter }}" {{ $adminshelter->id_shelter == $shelter->id_shelter ? 'selected' : '' }}>
-                                            {{ $shelter->nama_shelter }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- Data Pribadi Admin Shelter -->
+                            <!-- Data Pribadi Admin Cabang -->
                             <div class="form-group">
                                 <label>Nama Lengkap</label>
                                 <input type="text" name="nama_lengkap" class="form-control" value="{{ $adminshelter->nama_lengkap }}" required>
@@ -104,7 +80,7 @@
 
                             <div class="form-group">
                                 <label>Alamat</label>
-                                <textarea name="alamat_adm" class="form-control" rows="3" required>{{ $adminshelter->alamat_adm }}</textarea>
+                                <textarea name="alamat" class="form-control" rows="3" required>{{ $adminshelter->alamat }}</textarea>
                             </div>
 
                             <div class="form-group">
@@ -117,14 +93,14 @@
                                 <label>Foto</label>
                                 <input type="file" name="foto" class="form-control">
                                 @if($adminshelter->foto)
-                                    <img src="{{ asset('storage/' . $adminshelter->foto) }}" alt="Foto Admin Shelter" class="img-fluid mt-2" style="width: 150px;">
+                                    <img src="{{ asset('storage/' . $adminshelter->foto) }}" alt="Foto Admin Cabang" class="img-fluid mt-2" style="width: 150px;">
                                 @endif
                             </div>
 
                             <!-- Tombol submit dan batal -->
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary mt-3">Update</button>
-                                <a href="{{ route('admin_shelter', ['page' => request()->query('current_page', 0)]) }}" class="btn btn-secondary mt-3">Batal</a>
+                                <a href="{{ route('admin_cabang', ['page' => request()->query('current_page', 0)]) }}" class="btn btn-secondary mt-3">Batal</a>
                             </div>
                         </form>
                     </div>
@@ -138,44 +114,7 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
-        // Fetch Wilayah Binaan when Kacab changes
-        $('#kacab').on('change', function() {
-            var id_kacab = $(this).val();
-            $('#wilbin').empty().append('<option value="">Pilih Wilayah Binaan</option>');
-            $('#shelter').empty().append('<option value="">Pilih Shelter</option>');
-
-            if (id_kacab) {
-                $.ajax({
-                    url: '/admin_pusat/settings/wilbin/' + id_kacab,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        $.each(data, function(key, value) {
-                            $('#wilbin').append('<option value="' + value.id_wilbin + '">' + value.nama_wilbin + '</option>');
-                        });
-                    }
-                });
-            }
-        });
-
-        // Fetch Shelter when Wilayah Binaan changes
-        $('#wilbin').on('change', function() {
-            var id_wilbin = $(this).val();
-            $('#shelter').empty().append('<option value="">Pilih Shelter</option>');
-
-            if (id_wilbin) {
-                $.ajax({
-                    url: '/admin_pusat/settings/shelter/' + id_wilbin,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        $.each(data, function(key, value) {
-                            $('#shelter').append('<option value="' + value.id_shelter + '">' + value.nama_shelter + '</option>');
-                        });
-                    }
-                });
-            }
-        });
+        // No additional JS needed since only Kacab is editable
     });
 </script>
 @endsection

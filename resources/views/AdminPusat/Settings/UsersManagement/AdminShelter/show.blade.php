@@ -55,12 +55,26 @@
     /* Tambahkan border biru saat tab aktif */
     .nav-tabs .nav-link.active {
         color: #5a5a5a;
-        border-color: #5a5a5a; /* border biru untuk tab aktif */
-        border-bottom-color: white; /* agar tab terlihat menyatu dengan konten */
+        border-color: #5a5a5a;
+        border-bottom-color: white;
     }
 
     .nav-tabs {
         margin-bottom: 20px;
+    }
+
+    /* Pastikan tidak ada overflow horizontal */
+    .container {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+    .page-inner {
+        min-height: calc(100vh - 100px);
+        display: flex;
+        flex-direction: column;
+    }
+    .card {
+        flex-grow: 1;
     }
 </style>
 @endsection
@@ -74,12 +88,10 @@
                     <div class="card-header info-section">
                         <h4 class="card-title">Detail Admin Shelter</h4>
                         <div class="status-badge">
-                            <!-- Display Shelter Name with Icon -->
                             <span class="btn btn-info btn-shelter">
                                 <i class="fa fa-map" style="margin-right: 10px;"></i> 
                                 {{ $adminshelter->shelter->nama_shelter }}
                             </span>
-                            <!-- Display Status -->
                             <span class="btn btn-warning btn-status text-white">
                                 @if($adminshelter->user->status == 'aktif')
                                     <i class="fa fa-check" style="margin-right: 10px;"></i> Aktif
@@ -93,7 +105,7 @@
                         <div class="row">
                             <!-- Left section with Profile Image and Basic Info -->
                             <div class="col-md-3 text-center">
-                                <img src="{{ $adminshelter->foto ? asset('storage/' . $adminshelter->foto) : asset('images/default.png') }}" class="img-fluid" alt="Foto Admin Shelter">
+                                <img src="{{ $adminshelter->foto ? asset('storage/' . $adminshelter->foto) : asset('images/default.png') }}" class="img-fluid" alt="Foto Admin Shelter" style="max-width: 100%;">
                                 <h4 class="mt-3">{{ $adminshelter->nama_lengkap }}</h4>
                                 <div>
                                     <span class="detail-value">
@@ -107,7 +119,6 @@
                                 <!-- Nav Tabs -->
                                 <ul class="nav nav-tabs">
                                     <li class="nav-item">
-                                        <!-- Tab untuk Informasi Personal -->
                                         <a class="nav-link {{ request()->get('tab') != 'anak-asuh' ? 'active' : '' }}" 
                                            href="{{ route('admin_shelter.show', $adminshelter->id_admin_shelter) }}">
                                            Informasi Personal
@@ -157,6 +168,8 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
 @endsection
 
 @section('scripts')

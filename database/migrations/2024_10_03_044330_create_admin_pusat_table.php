@@ -12,13 +12,16 @@ class CreateAdminPusatTable extends Migration
     public function up(): void
     {
         Schema::create('admin_pusat', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); 
+            $table->id('id_admin_pusat');
+            $table->unsignedBigInteger('id_users');
             $table->string('nama_lengkap');
             $table->text('alamat');
             $table->string('no_hp');
             $table->string('foto')->nullable(); 
             $table->timestamps();
+
+            // Foreign key relations
+            $table->foreign('id_users')->references('id_users')->on('users')->onDelete('cascade');
         });
     }
 

@@ -8,6 +8,7 @@ use App\Models\AdminCabang;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AdminCabangController extends Controller
 {
@@ -58,7 +59,7 @@ class AdminCabangController extends Controller
 
         // Buat data admin cabang
         AdminCabang::create([
-            'user_id' => $user->id,
+            'user_id' => $user->id_users,
             'id_kacab' => $request->id_kacab,
             'nama_lengkap' => $request->nama_lengkap,
             'alamat' => $request->alamat,
@@ -82,32 +83,29 @@ class AdminCabangController extends Controller
         return view('AdminPusat.Settings.UsersManagement.AdminCabang.show', compact('admincabang'));
     }
 
-    public function edit($id_admin_shelter, Request $request) {
-        // Temukan admin shelter berdasarkan ID
-        $adminshelter = AdminCabang::with(['user', 'kacab', 'wilbin', 'shelter'])->findOrFail($id_admin_shelter);
+    public function edit($id_admin_cabang, Request $request) {
+        // Temukan admin cabang berdasarkan ID
+        $adminshelter = AdminCabang::with(['user', 'kacab'])->findOrFail($id_admin_cabang);
         
-        // Ambil semua data relasi yang diperlukan
+        // Ambil data Kacab saja
         $kacab = Kacab::all();
         
-        // Pastikan current_page diteruskan ke view dengan aman
-        $currentPage = $request->query('current_page', 0); // Mengambil current_page dari query string
+        // Current page untuk keperluan navigasi
+        $currentPage = $request->query('current_page', 0);
         
-        // Kirim currentPage ke view bersama dengan data lainnya
         return view('AdminPusat.Settings.UsersManagement.AdminCabang.edit', compact('adminshelter', 'kacab', 'currentPage'));
     }
-
-    public function update(Request $request, $id_admin_shelter) {
-        $adminshelter = AdminCabang::findOrFail($id_admin_shelter);
+    
+    public function update(Request $request, $id_admin_cabang) {
+        $adminshelter = AdminCabang::findOrFail($id_admin_cabang);
     
         // Validasi data
         $request->validate([
-            'email' => 'required|email|unique:users,email,' . $adminshelter->user->id,
+            'email' => 'required|email|unique:users,email,' . $adminshelter->user->id_users . ',id_users',
             'password' => 'nullable|min:6',
             'id_kacab' => 'required',
-            'id_wilbin' => 'required',
-            'id_shelter' => 'required',
             'nama_lengkap' => 'required',
-            'alamat_adm' => 'required',
+            'alamat' => 'required',
             'no_hp' => 'required',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
@@ -125,24 +123,38 @@ class AdminCabangController extends Controller
     
         // Simpan foto jika ada
         if ($request->hasFile('foto')) {
-            $fotoPath = $request->file('foto')->store('AdminShelter/Shelter', 'public');
+            $fotoPath = $request->file('foto')->store('AdminCabang/Foto', 'public');
             $adminshelter->update(['foto' => $fotoPath]);
         }
     
-        // Update data admin shelter
+        // Update data admin cabang
         $adminshelter->update([
             'id_kacab' => $request->id_kacab,
-            'id_wilbin' => $request->id_wilbin,
-            'id_shelter' => $request->id_shelter,
             'nama_lengkap' => $request->nama_lengkap,
-            'alamat_adm' => $request->alamat_adm,
+            'alamat' => $request->alamat,
             'no_hp' => $request->no_hp,
         ]);
     
-        $currentPage = $request->input('current_page', 0); // Ambil current page dari request
-
-        return redirect()->route('admin_cabang', ['page' => $currentPage]) // Tambahkan parameter page
+        $currentPage = $request->input('current_page', 0);
+    
+        return redirect()->route('admin_cabang', ['page' => $currentPage])
                          ->with('success', 'Data Admin Cabang berhasil diupdate');
+    }
+    
+    public function destroy(Request $request, $id_admin_cabang) {
+        $admincabang = AdminCabang::findOrFail($id_admin_cabang);
+
+        if ($admincabang->foto) {
+            Storage::disk('public')->delete($admincabang->foto);
+        }
+
+        $admincabang->delete();
+
+        $currentPage = $request->input('current_page', 0);
+
+        return redirect()->route('admin_cabang', ['page' => $currentPage])
+                         ->with('success', 'Data Admin Cabang berhasil dihapus')
+                         ->with('currentPage', $currentPage);
     }
     
 }

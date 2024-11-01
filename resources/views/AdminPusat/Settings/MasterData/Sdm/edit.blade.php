@@ -85,7 +85,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Kacab</label>
-                                <select name="id_kacab" class="form-control" required>
+                                <select name="id_kacab" id="kacab" class="form-control" required>
                                     <option value="">Pilih Kacab</option>
                                     @foreach($kacab as $kac)
                                         <option value="{{ $kac->id_kacab }}" {{ $sdm->id_kacab == $kac->id_kacab ? 'selected' : '' }}>
@@ -94,9 +94,10 @@
                                     @endforeach
                                 </select>
                             </div>
+                            
                             <div class="form-group">
                                 <label>Wilayah Binaan</label>
-                                <select name="id_wilbin" class="form-control">
+                                <select name="id_wilbin" id="wilbin" class="form-control">
                                     <option value="">Pilih Wilayah Binaan</option>
                                     @foreach($wilbin as $wil)
                                         <option value="{{ $wil->id_wilbin }}" {{ $sdm->id_wilbin == $wil->id_wilbin ? 'selected' : '' }}>
@@ -105,6 +106,7 @@
                                     @endforeach
                                 </select>
                             </div>
+                            
 
                             <!-- Pilihan Provinsi, Kabupaten, Kecamatan, dan Kelurahan -->
                             <div class="form-group">
@@ -170,63 +172,93 @@
 
 @section('scripts')
 <script>
-    $(document).ready(function() {
-        $('#provinsi').on('change', function() {
-            var id_prov = $(this).val();
-            $('#kabupaten').empty().append('<option value="">Pilih Kabupaten/Kota</option>');
-            $('#kecamatan').empty().append('<option value="">Pilih Kecamatan</option>');
-            $('#kelurahan').empty().append('<option value="">Pilih Kelurahan/Desa</option>');
+   $(document).ready(function() {
+    // Saat Kacab dipilih, ambil Wilayah Binaan terkait
+    $('#kacab').on('change', function() {
+        var id_kacab = $(this).val();
+        $('#wilbin').empty().append('<option value="">Pilih Wilayah Binaan</option>');
 
-            if (id_prov) {
-                $.ajax({
-                    url: '/kabupaten/' + id_prov,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
+        if (id_kacab) {
+            $.ajax({
+                url: '/admin_pusat/settings/wilbin/' + id_kacab,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    if (data.length > 0) {
                         $.each(data, function(key, value) {
-                            $('#kabupaten').append('<option value="' + value.id_kab + '">' + value.nama + '</option>');
+                            $('#wilbin').append('<option value="' + value.id_wilbin + '">' + value.nama_wilbin + '</option>');
                         });
+                    } else {
+                        $('#wilbin').append('<option value="">Wilayah Binaan tidak ditemukan</option>');
                     }
-                });
-            }
-        });
-
-        $('#kabupaten').on('change', function() {
-            var id_kab = $(this).val();
-            $('#kecamatan').empty().append('<option value="">Pilih Kecamatan</option>');
-            $('#kelurahan').empty().append('<option value="">Pilih Kelurahan/Desa</option>');
-
-            if (id_kab) {
-                $.ajax({
-                    url: '/kecamatan/' + id_kab,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        $.each(data, function(key, value) {
-                            $('#kecamatan').append('<option value="' + value.id_kec + '">' + value.nama + '</option>');
-                        });
-                    }
-                });
-            }
-        });
-
-        $('#kecamatan').on('change', function() {
-            var id_kec = $(this).val();
-            $('#kelurahan').empty().append('<option value="">Pilih Kelurahan/Desa</option>');
-
-            if (id_kec) {
-                $.ajax({
-                    url: '/kelurahan/' + id_kec,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data) {
-                        $.each(data, function(key, value) {
-                            $('#kelurahan').append('<option value="' + value.id_kel + '">' + value.nama + '</option>');
-                        });
-                    }
-                });
-            }
-        });
+                },
+                error: function() {
+                    alert('Gagal mengambil data Wilayah Binaan');
+                }
+            });
+        }
     });
+
+    // Saat Provinsi dipilih, ambil Kabupaten terkait
+    $('#provinsi').on('change', function() {
+        var id_prov = $(this).val();
+        $('#kabupaten').empty().append('<option value="">Pilih Kabupaten/Kota</option>');
+        $('#kecamatan').empty().append('<option value="">Pilih Kecamatan</option>');
+        $('#kelurahan').empty().append('<option value="">Pilih Kelurahan/Desa</option>');
+
+        if (id_prov) {
+            $.ajax({
+                url: '/kabupaten/' + id_prov,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $.each(data, function(key, value) {
+                        $('#kabupaten').append('<option value="' + value.id_kab + '">' + value.nama + '</option>');
+                    });
+                }
+            });
+        }
+    });
+
+    // Saat Kabupaten dipilih, ambil Kecamatan terkait
+    $('#kabupaten').on('change', function() {
+        var id_kab = $(this).val();
+        $('#kecamatan').empty().append('<option value="">Pilih Kecamatan</option>');
+        $('#kelurahan').empty().append('<option value="">Pilih Kelurahan/Desa</option>');
+
+        if (id_kab) {
+            $.ajax({
+                url: '/kecamatan/' + id_kab,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $.each(data, function(key, value) {
+                        $('#kecamatan').append('<option value="' + value.id_kec + '">' + value.nama + '</option>');
+                    });
+                }
+            });
+        }
+    });
+
+    // Saat Kecamatan dipilih, ambil Kelurahan terkait
+    $('#kecamatan').on('change', function() {
+        var id_kec = $(this).val();
+        $('#kelurahan').empty().append('<option value="">Pilih Kelurahan/Desa</option>');
+
+        if (id_kec) {
+            $.ajax({
+                url: '/kelurahan/' + id_kec,
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    $.each(data, function(key, value) {
+                        $('#kelurahan').append('<option value="' + value.id_kel + '">' + value.nama + '</option>');
+                    });
+                }
+            });
+        }
+    });
+});
+
 </script>
 @endsection

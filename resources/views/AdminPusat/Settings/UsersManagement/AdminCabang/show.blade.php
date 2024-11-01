@@ -34,7 +34,7 @@
         margin-top: 20px;
     }
 
-    /* Styling for removing borders and adjusting layout */
+    /* Styling untuk informasi tanpa border */
     .detail-group {
         font-size: 1rem;
         margin-bottom: 10px;
@@ -52,16 +52,40 @@
         border: 1px solid transparent;
     }
 
-    /* Tambahkan border biru saat tab aktif */
+    /* Border biru saat tab aktif */
     .nav-tabs .nav-link.active {
         color: #5a5a5a;
-        border-color: #5a5a5a; /* border biru untuk tab aktif */
-        border-bottom-color: white; /* agar tab terlihat menyatu dengan konten */
+        border-color: #5a5a5a;
+        border-bottom-color: white;
     }
 
     .nav-tabs {
         margin-bottom: 20px;
     }
+
+    /* Menghindari overflow horizontal */
+    .container {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    /* Flexbox untuk mengisi ruang dengan baik */
+    .page-inner {
+        min-height: calc(100vh - 100px); /* Pastikan footer tidak terpotong */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card {
+        flex-grow: 1;
+    }
+
+    /* Atur gambar agar responsif dan tidak lebih besar dari container */
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+
 </style>
 @endsection
 
@@ -102,12 +126,11 @@
                                 </div>
                             </div>
 
-                            <!-- Right section with detailed information, without borders -->
+                            <!-- Right section with detailed information -->
                             <div class="col-md-9">
                                 <!-- Nav Tabs -->
                                 <ul class="nav nav-tabs">
                                     <li class="nav-item">
-                                        <!-- Tab untuk Informasi Personal -->
                                         <a class="nav-link active" href="{{ route('admin_cabang.show', $admincabang->id_admin_cabang) }}">
                                            Informasi Personal
                                         </a>
@@ -150,6 +173,8 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
 @endsection
 
 @section('scripts')

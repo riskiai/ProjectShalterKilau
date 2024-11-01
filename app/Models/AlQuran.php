@@ -9,14 +9,21 @@ class AlQuran extends Model
 {
     use HasFactory;
 
-    protected $table = 'al_quran';
+    protected $table = 'al_quran'; // Nama tabel
 
-    // Ubah primary key menjadi id_quran
-    protected $primaryKey = 'id_quran';
+    protected $primaryKey = 'id_quran'; // Primary key
 
     protected $fillable = [
         'nama',
         'ayat',
-        'keterangan'
+        'keterangan',
     ];
+
+    /**
+     * Relasi ke tabel anak_detail.
+     */
+    public function anakDetails()
+    {
+        return $this->hasMany(AnakDetail::class, 'id_quran');
+    }
 }

@@ -73,7 +73,7 @@ class AdminShelterController extends Controller
 
         // Buat data admin shelter
         AdminShelter::create([
-            'user_id' => $user->id,
+            'user_id' => $user->id_users,
             'id_kacab' => $request->id_kacab,
             'id_wilbin' => $request->id_wilbin,
             'id_shelter' => $request->id_shelter,
@@ -120,7 +120,7 @@ class AdminShelterController extends Controller
     
         // Validasi data
         $request->validate([
-            'email' => 'required|email|unique:users,email,' . $adminshelter->user->id,
+            'email' => 'required|email|unique:users,email,' . $adminshelter->user->id_users . ',id_users',
             'password' => 'nullable|min:6',
             'id_kacab' => 'required',
             'id_wilbin' => 'required',
@@ -176,7 +176,7 @@ class AdminShelterController extends Controller
         $currentPage = $request->input('current_page', 0);
 
         return redirect()->route('admin_shelter', ['page' => $currentPage])
-                         ->with('success', 'Data Donatur berhasil dihapus')
+                         ->with('success', 'Data Admin Shelter berhasil dihapus')
                          ->with('currentPage', $currentPage);
     }
         

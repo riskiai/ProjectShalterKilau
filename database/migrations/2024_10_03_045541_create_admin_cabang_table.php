@@ -13,7 +13,7 @@ class CreateAdminCabangTable extends Migration
     {
         Schema::create('admin_cabang', function (Blueprint $table) {
             $table->id('id_admin_cabang'); // Primary key custom
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Relasi ke tabel users
+            $table->unsignedBigInteger('user_id'); // Relasi ke tabel users
             $table->unsignedBigInteger('id_kacab'); // Definisikan sebagai unsignedBigInteger karena foreign key
             $table->string('nama_lengkap'); // Nama lengkap admin cabang
             $table->text('alamat'); // Alamat admin cabang
@@ -22,6 +22,7 @@ class CreateAdminCabangTable extends Migration
             $table->timestamps();
 
             // Definisikan foreign key secara eksplisit ke kolom id_kacab
+            $table->foreign('user_id')->references('id_users')->on('users')->onDelete('cascade');
             $table->foreign('id_kacab')->references('id_kacab')->on('kacab')->onDelete('cascade');
         });
     }

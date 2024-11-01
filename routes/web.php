@@ -3,30 +3,41 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\DashboardAplikasiShalterPusatController;
+use App\Http\Controllers\GlobalApiDataWilayahIndonesiaController;
 use App\Http\Controllers\AdminPusat\DashboardAdminPusatController;
 use App\Http\Controllers\AdminCabang\DashboardAdminCabangController;
-use App\Http\Controllers\AdminPusat\Settings\AnakTutor\Absen\AbsenUserController;
-use App\Http\Controllers\AdminPusat\Settings\AnakTutor\Tutor\TutorController;
-use App\Http\Controllers\AdminPusat\Settings\DataWilayah\DataShalter\DataShalterController;
+use App\Http\Controllers\AdminPusat\Pemberdayaan\DataBinaan\DataAnakBinaan\DataAnakBinaanController;
+use App\Http\Controllers\AdminPusat\Pemberdayaan\DataBinaan\DataAnakNonBinaan\DataAnakNonBinaanController;
 use App\Http\Controllers\AdminShalter\DashboardAdminShalterController;
+use App\Http\Controllers\AdminPusat\Settings\MasterData\Sdm\SdmController;
+use App\Http\Controllers\AdminPusat\Settings\MasterData\Bank\BankController;
+use App\Http\Controllers\AdminPusat\Settings\AnakTutor\Tutor\TutorController;
+use App\Http\Controllers\AdminPusat\Settings\DataWilayah\Kacab\KacabController;
 
 /* Settings */
 // Master Data
-use App\Http\Controllers\AdminPusat\Settings\MasterData\Bank\BankController;
-use App\Http\Controllers\AdminPusat\Settings\DataWilayah\Kacab\KacabController;
-use App\Http\Controllers\AdminPusat\Settings\DataWilayah\Wilbin\WilayahBinaanController;
 use App\Http\Controllers\AdminPusat\Settings\MasterData\Quran\QuraanController;
 use App\Http\Controllers\AdminPusat\Settings\MasterData\Materi\MateriController;
+use App\Http\Controllers\AdminPusat\Settings\AnakTutor\Absen\AbsenUserController;
 use App\Http\Controllers\AdminPusat\Settings\MasterData\Kegiatan\KegiatanController;
 use App\Http\Controllers\AdminPusat\Settings\MasterData\Struktur\StrukturController;
+use App\Http\Controllers\AdminPusat\Settings\UsersManagement\Donatur\DonaturController;
+use App\Http\Controllers\AdminPusat\Settings\DataWilayah\Wilbin\WilayahBinaanController;
 // Data Wilayah
+use App\Http\Controllers\AdminPusat\Settings\UsersManagement\UsersAll\UsersAllController;
 use App\Http\Controllers\AdminPusat\Settings\MasterData\LevelBinaan\LevelBinaanController;
-use App\Http\Controllers\AdminPusat\Settings\MasterData\Sdm\SdmController;
+use App\Http\Controllers\AdminPusat\Settings\DataWilayah\DataShalter\DataShalterController;
 use App\Http\Controllers\AdminPusat\Settings\PengajuanDonatur\PB\PenerimaBeasiswaController;
+use App\Http\Controllers\AdminPusat\Settings\UsersManagement\AdminPusat\AdminPusatController;
 use App\Http\Controllers\AdminPusat\Settings\UsersManagement\AdminCabang\AdminCabangController;
 use App\Http\Controllers\AdminPusat\Settings\UsersManagement\AdminShelter\AdminShelterController;
-use App\Http\Controllers\AdminPusat\Settings\UsersManagement\Donatur\DonaturController;
-use App\Http\Controllers\GlobalApiDataWilayahIndonesiaController;
+use App\Http\Controllers\AdminPusat\Pemberdayaan\DataBinaan\PengajuanAnakBinaan\FormKeluargaController;
+use App\Http\Controllers\AdminPusat\Pemberdayaan\DataBinaan\PengajuanAnakBinaan\FormKeluargaBaruController;
+use App\Http\Controllers\AdminPusat\Pemberdayaan\DataBinaan\DataCalonAnakBinaan\DataCalonAnakBinaanController;
+use App\Http\Controllers\AdminPusat\Pemberdayaan\DataBinaan\DataKeluarga\DataKeluargaController;
+use App\Http\Controllers\AdminPusat\Pemberdayaan\DataBinaan\DataSurvey\DataSurveyController;
+use App\Http\Controllers\AdminPusat\Pemberdayaan\DataBinaan\DataSurvey\DataValidasiSurveyController;
+use App\Http\Controllers\AdminPusat\Pemberdayaan\DataKelompok\DataKelompokController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,10 +72,95 @@ Route::middleware(['auth', 'userAccess:admin_pusat'])->prefix('admin_pusat')->gr
     
     /* Admin Pusat */
     // Dashboard Admin Pusat
-    Route::get('/dashboard-PemberdayaanPusat', [DashboardAdminPusatController::class, 'dashboardPemberdayaanPusat'])->name('dashboardPemberdayaanPusat');
     Route::get('/dashboard-ReportPusat', [DashboardAdminPusatController::class, 'dashboardReportPusat'])->name('dashboardReportPusat');
     Route::get('/dashboard-KeuanganPusat', [DashboardAdminPusatController::class, 'dashboardKeuanganPusat'])->name('dashboardKeuanganPusat');
     Route::get('/dashboard-BeritaPusat', [DashboardAdminPusatController::class, 'dashboardBeritaPusat'])->name('dashboardBeritaPusat');
+
+     // Settings Admin Pusat
+     Route::prefix('pemberdayaan')->group(function () { 
+        Route::get('/dashboard-PemberdayaanPusat', [DashboardAdminPusatController::class, 'dashboardPemberdayaanPusat'])->name('dashboardPemberdayaanPusat');
+
+        /* Data Binaan */
+        // Data Form Keluarga Baru
+        Route::get('/form-keluarga', [FormKeluargaBaruController::class, 'formKeluargaBaru'])->name('form_keluarga_baru');
+        Route::post('/form-keluarga/store', [FormKeluargaBaruController::class, 'store'])->name('form_keluarga_baru.store');
+
+        // Data Form Keluarga Yang Sudah ada
+        Route::get('/ajukan-anak', [FormKeluargaController::class, 'pengajuananak'])->name('ajukan_anak');
+        Route::post('/validasi-kk', [FormKeluargaController::class, 'validasikk'])->name('validasi_kk');
+        Route::post('/pengajuan-anak', [FormKeluargaController::class, 'pengajuananakstore'])->name('pengajuan_anak_store');
+        
+        // Data Calon Anak Binaan
+        Route::get('/calonAnakBinaan', [DataCalonAnakBinaanController::class, 'index'])->name('calonAnakBinaan');
+        Route::patch('/anak/{id}/activasi', [DataCalonAnakBinaanController::class, 'activasi'])->name('anak.activasi');
+        Route::get('/calonAnakBinaan/{id}/show', [DataCalonAnakBinaanController::class, 'show'])->name('calonAnakBinaan.show');
+        Route::get('/aktivasicalonAnakBinaan/{id}', [DataCalonAnakBinaanController::class, 'aktivasicalonanakbinaanshow'])->name('aktivasicalonAnakBinaan');        
+        Route::delete('/calonAnakBinaan/{id}', [DataCalonAnakBinaanController::class, 'destroy'])->name('calonAnakBinaan.destroy');
+        /* Data Edit Di Halaman Calon Anak Binaan  */
+        // Data Edit Di Halaman Anak Binaan  
+        Route::get('/editcalonAnakBinaan/{id}', [DataCalonAnakBinaanController::class, 'editcalonanakbinaan'])->name('editcalonAnakBinaan');
+        Route::post('/editcalonAnakBinaanProsess/{id}', [DataCalonAnakBinaanController::class, 'editprosesscalonanakbinaan'])->name('edit.prosess.calonAnakBinaan');
+        // Data Edit Halaman Pendidikan Anak
+        Route::get('/editPendidikanAnakBinaan/{id}', [DataCalonAnakBinaanController::class, 'editPendidikanAnakBinaan'])->name('editPendidikanAnakBinaan');
+        Route::post('/editPendidikanAnakBinaanProsess/{id}', [DataCalonAnakBinaanController::class, 'editprosesspendidikananakbinaan'])->name('edit.prosess.PendidikanAnakBinaan');
+
+        // Data Non Anak Binaan
+        Route::get('/NonAnakBinaan', [DataAnakNonBinaanController::class, 'index'])->name('NonAnakBinaan');
+        Route::patch('/nonbinaanactive/{id}/activasi', [DataAnakNonBinaanController::class, 'nonbinaanactivactivasi'])->name('anak.nonbinaanactivasi');
+        Route::get('/nonAnakBinaan/{id}/show', [DataAnakNonBinaanController::class, 'show'])->name('nonAnakBinaan.show');
+        Route::delete('/NonAnakBinaan/{id}', [DataAnakNonBinaanController::class, 'destroy'])->name('NonAnakBinaan.destroy');
+        
+        // Data Anak Binaan
+        Route::get('/AnakBinaan', [DataAnakBinaanController::class, 'index'])->name('AnakBinaan');
+        Route::patch('/nonaktifkan-anak/{id}/activasi', [DataAnakBinaanController::class, 'nonactivasi'])->name('anak.nonactivasi');
+        Route::get('/AnakBinaan/{id}/show', [DataAnakBinaanController::class, 'show'])->name('AnakBinaan.show');
+        Route::delete('/AnakBinaan/{id}', [DataAnakBinaanController::class, 'destroy'])->name('AnakBinaan.destroy');
+        /* Data Edit Di Halaman Anak Binaan  */
+        // Data Edit Di Halaman Anak Binaan  
+        Route::get('/editAnakBinaan/{id}', [DataAnakBinaanController::class, 'editanakbinaan'])->name('editAnakBinaan');
+        Route::post('/editAnakBinaanProsess/{id}', [DataAnakBinaanController::class, 'editprosessanakbinaan'])->name('edit.prosess.AnakBinaan');
+        // Data Edit Halaman Pendidikan Anak
+        Route::get('/editPendidikanAnak/{id}', [DataAnakBinaanController::class, 'editPendidikanAnak'])->name('editPendidikanAnak');
+        Route::post('/editPendidikanAnakProsess/{id}', [DataAnakBinaanController::class, 'editprosesspendidikananak'])->name('edit.prosess.PendidikanAnak');
+        
+        // Data Keluarga
+        Route::get('/keluarga', [DataKeluargaController::class, 'index'])->name('keluarga');
+        Route::get('/keluarga/{id}/show', [DataKeluargaController::class, 'show'])->name('Keluarga.show');
+        Route::delete('/keluarga/{id}', [DataKeluargaController::class, 'destroy'])->name('keluarga.destroy');
+        /* Data Edit */
+        // Edit Data Keluarga
+        Route::get('/keluarga/{id}/edit-keluarga', [DataKeluargaController::class, 'edit'])->name('editKeluarga');
+        Route::post('/keluarga/{id}/edit-proses', [DataKeluargaController::class, 'update'])->name('edit.prosess.keluarga');
+        //Edit Data Ayah
+        Route::get('/keluarga/{id}/edit-ayah', [DataKeluargaController::class, 'editAyah'])->name('editDataAyah');
+        Route::post('/keluarga/{id}/edit-ayahprosess', [DataKeluargaController::class, 'updateAyah'])->name('edit.prosess.keluarga.ayah');
+        // Edit Data Ibu
+        Route::get('/keluarga/{id}/edit-ibu', [DataKeluargaController::class, 'editIbu'])->name('editDataIbu');
+        Route::post('/keluarga/{id}/edit-ibuprosess', [DataKeluargaController::class, 'updateIbu'])->name('edit.prosess.keluarga.ibu');
+        // Edit Data Wali
+        Route::get('/keluarga/{id}/edit-wali', [DataKeluargaController::class, 'editWali'])->name('editDataWali');
+        Route::post('/keluarga/{id}/edit-waliprosess', [DataKeluargaController::class, 'updateWali'])->name('edit.prosess.keluarga.wali');
+        
+        // Data Survey
+        Route::get('/surveykeluarga', [DataSurveyController::class, 'index'])->name('surveykeluarga');
+        /* Data Survey Keluarga Create */
+        Route::get('/surveykeluarga/{id}/show', [DataSurveyController::class, 'show'])->name('surveykeluarga.show');
+        Route::post('/surveykeluarga/{id}/store', [DataSurveyController::class, 'store'])->name('surveykeluarga.store');
+        Route::post('/survey/{id_survey}/ubah-status', [DataSurveyController::class, 'ubahStatus'])->name('survey.ubahStatus');
+
+        // Simpan sementara data pada setiap tab
+        // Route::post('/surveykeluarga/{id}/savetemp', [DataSurveyController::class, 'saveTemporary'])->name('surveykeluarga.saveTemporary');
+
+        // Validasi Survey
+        Route::get('/validasisurveykeluarga', [DataValidasiSurveyController::class, 'index'])->name('validasisurveykeluarga');
+        Route::get('/validasisurveykeluarga/{id_survey}/show', [DataValidasiSurveyController::class, 'validasiSurveyShow'])->name('validasisurveykeluarga.show');
+        Route::post('/validasi/survey/{id}', [DataValidasiSurveyController::class, 'storeValidation'])->name('validasi.survey');
+        Route::delete('/validasisurveykeluarga/{id_keluarga}/survey/{id_survey}', [DataValidasiSurveyController::class, 'destroy'])->name('validasi.destroy');
+        
+        /* Data Kelompok */
+        Route::get('/datakelompokshelter', [DataKelompokController::class, 'index'])->name('datakelompokshelter');
+        });
+    
 
     // Settings Admin Pusat
     Route::prefix('settings')->group(function () { 
@@ -180,6 +276,14 @@ Route::middleware(['auth', 'userAccess:admin_pusat'])->prefix('admin_pusat')->gr
         Route::delete('/pengajuan_donatur_npb/{id_anak}', [PenerimaBeasiswaController::class, 'destroy'])->name('pengajuan_donatur.destroy');
 
         /* Users Management */
+        // All Users
+        Route::get('/usersall', [UsersAllController::class, 'index'])->name('usersall');
+        Route::get('/usersall/create', [UsersAllController::class, 'create'])->name('usersall.create');
+        Route::post('/usersall/store', [UsersAllController::class, 'store'])->name('usersall.store');
+        Route::get('/usersall/{id_users}/edit', [UsersAllController::class, 'edit'])->name('usersall.edit');
+        Route::put('/usersall/update/{id_users}', [UsersAllController::class, 'update'])->name('usersall.update');
+        Route::delete('/usersall/destroy/{id_users}', [UsersAllController::class, 'destroy'])->name('usersall.destroy');
+
         // Donatur
         Route::get('/donatur', [DonaturController::class, 'index'])->name('donatur');
         Route::get('/donatur/create', [DonaturController::class, 'create'])->name('donatur.create');
@@ -206,6 +310,15 @@ Route::middleware(['auth', 'userAccess:admin_pusat'])->prefix('admin_pusat')->gr
         Route::get('/admin_cabang/{id_admin_cabang}/edit', [AdminCabangController::class, 'edit'])->name('admin_cabang.edit');
         Route::put('/admin_cabang/{id_admin_cabang}', [AdminCabangController::class, 'update'])->name('admin_cabang.update');
         Route::delete('/admin_cabang/{id_admin_cabang}', [AdminCabangController::class, 'destroy'])->name('admin_cabang.destroy');
+
+        // Admin Pusat
+        Route::get('/admin_pusat', [AdminPusatController::class, 'index'])->name('admin_pusat');
+        Route::get('/admin_pusat/create', [AdminPusatController::class, 'create'])->name('admin_pusat.create');
+        Route::post('/admin_pusat/store', [AdminPusatController::class, 'store'])->name('admin_pusat.store');
+        Route::get('/admin_pusat/{id_admin_pusat}/show', [AdminPusatController::class, 'show'])->name('admin_pusat.show');
+        Route::get('/admin_pusat/{id_admin_pusat}/edit', [AdminPusatController::class, 'edit'])->name('admin_pusat.edit');
+        Route::put('/admin_pusat/{id_admin_pusat}', [AdminPusatController::class, 'update'])->name('admin_pusat.update');
+        Route::delete('/admin_pusat/{id_admin_pusat}', [AdminPusatController::class, 'destroy'])->name('admin_pusat.destroy');
     });
 });
 

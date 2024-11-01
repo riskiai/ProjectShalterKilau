@@ -16,4 +16,9 @@ class LevelAnakBinaan extends Model
     protected $fillable = [
         'nama_level_binaan'
     ];
+
+    public function kelompok()
+    {
+        return $this->hasMany(Kelompok::class, 'id_level_anak_binaan');
+    }
 }

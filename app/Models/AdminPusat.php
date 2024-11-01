@@ -12,9 +12,11 @@ class AdminPusat extends Model
     // Nama tabel yang digunakan
     protected $table = 'admin_pusat';
 
+    protected $primaryKey = 'id_admin_pusat'; 
+
     // Kolom yang dapat diisi secara massal
     protected $fillable = [
-        'user_id',
+        'id_users', // Gunakan 'id_users' sebagai kolom yang diisi
         'nama_lengkap',
         'alamat',
         'no_hp',
@@ -27,6 +29,6 @@ class AdminPusat extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'id_users'); // Menggunakan 'id_users' untuk relasi
     }
 }
