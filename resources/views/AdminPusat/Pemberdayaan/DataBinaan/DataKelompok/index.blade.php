@@ -3,6 +3,9 @@
 @section('style')
     <style>
         /* Custom CSS if needed */
+        .lihat-kelompok-btn {
+            margin-bottom: 5px;
+        }
     </style>
 @endsection
 
@@ -17,7 +20,7 @@
                         </div>
                         <div class="card-body">
 
-                            <!-- Shelter Table -->
+                            <!-- Tabel Shelter -->
                             <div class="table-responsive">
                                 <table id="shelter-table" class="display table table-striped table-hover">
                                     <thead>
@@ -47,16 +50,17 @@
                                                 <td>{{ $shelter->nama_shelter }}</td>
                                                 <td>{{ $shelter->kelompok->count() }}</td>
                                                 <td>
-                                                    <a href="" class="btn btn-info btn-sm">
+                                                    <a href="{{ route('datakelompokshelter.show', $shelter->id_shelter) }}" 
+                                                        class="btn btn-info btn-sm lihat-kelompok-btn">
                                                         <i class="fa fa-eye"></i> Lihat Kelompok
-                                                    </a>
-                                                </td>
+                                                     </a>                                                     
+                                                </td>                                                                                              
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- End of Shelter Table -->
+                            <!-- Akhir dari Tabel Shelter -->
 
                         </div>
                     </div>

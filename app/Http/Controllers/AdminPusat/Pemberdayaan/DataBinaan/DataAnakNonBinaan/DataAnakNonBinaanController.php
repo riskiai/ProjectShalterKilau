@@ -22,13 +22,6 @@ class DataAnakNonBinaanController extends Controller
     {
         $anak = Anak::findOrFail($id);
 
-        // Update status validasi menjadi 'Aktif' dan perbarui status CPB berdasarkan jenis anak binaan
-        if ($anak->jenis_anak_binaan == 'BPCB') {
-            $anak->status_cpb = Anak::STATUS_CPB_BCPB;
-        } elseif ($anak->jenis_anak_binaan == 'NPB') {
-            $anak->status_cpb = Anak::STATUS_CPB_NPB;
-        }
-
         // Set status validasi ke "Aktif" menggunakan konstanta
         $anak->status_validasi = Anak::STATUS_AKTIF;
         $anak->save();

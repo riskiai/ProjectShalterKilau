@@ -69,18 +69,23 @@
                             Str::startsWith(Route::currentRouteName(), 'editPendidikanAnakBinaan') ||
                             Str::startsWith(Route::currentRouteName(), 'nonAnakBinaan.show') ||
                             Str::startsWith(Route::currentRouteName(), 'editAnakBinaan') ||
-                            Str::startsWith(Route::currentRouteName(), 'editPendidikanAnak')||
-                            Str::startsWith(Route::currentRouteName(), 'keluarga')||
-                            Str::startsWith(Route::currentRouteName(), 'Keluarga.show')||
-                            Str::startsWith(Route::currentRouteName(), 'editKeluarga')||
-                            Str::startsWith(Route::currentRouteName(), 'editDataAyah')||
-                            Str::startsWith(Route::currentRouteName(), 'editDataIbu')||
-                            Str::startsWith(Route::currentRouteName(), 'editDataWali')||
-                            Str::startsWith(Route::currentRouteName(), 'surveykeluarga')||
-                            Str::startsWith(Route::currentRouteName(), 'validasisurveykeluarga')||
-                            Str::startsWith(Route::currentRouteName(), 'datakelompokshelter')||
-                            Str::startsWith(Route::currentRouteName(), 'surveykeluarga.show')||
-                            Str::startsWith(Route::currentRouteName(), 'validasisurveykeluarga.show'))
+                            Str::startsWith(Route::currentRouteName(), 'editPendidikanAnak') ||
+                            Str::startsWith(Route::currentRouteName(), 'keluarga') ||
+                            Str::startsWith(Route::currentRouteName(), 'Keluarga.show') ||
+                            Str::startsWith(Route::currentRouteName(), 'editKeluarga') ||
+                            Str::startsWith(Route::currentRouteName(), 'editDataAyah') ||
+                            Str::startsWith(Route::currentRouteName(), 'editDataIbu') ||
+                            Str::startsWith(Route::currentRouteName(), 'editDataWali') ||
+                            Str::startsWith(Route::currentRouteName(), 'surveykeluarga') ||
+                            Str::startsWith(Route::currentRouteName(), 'validasisurveykeluarga') ||
+                            Str::startsWith(Route::currentRouteName(), 'datakelompokshelter') ||
+                            Str::startsWith(Route::currentRouteName(), 'surveykeluarga.show') ||
+                            Str::startsWith(Route::currentRouteName(), 'validasisurveykeluarga.show') ||
+                            Str::startsWith(Route::currentRouteName(), 'datakelompokshelter.show') ||
+                            Str::startsWith(Route::currentRouteName(), 'kelompok.create') ||
+                            Str::startsWith(Route::currentRouteName(), 'kelompok.edit') ||
+                            Str::startsWith(Route::currentRouteName(), 'pindahanak') ||
+                            Str::startsWith(Route::currentRouteName(), 'kelompok.createanak'))
                         <a href="{{ route('dashboardPemberdayaanPusat') }}">
                             <i class="fas fa-tachometer-alt"></i>
                             <p>Dashboard Pemberdayaan</p>
@@ -88,21 +93,34 @@
                     @endif
 
                     {{-- Jika sedang di halaman Keuangan, arahkan ke dashboard keuangan --}}
-                    @if (request()->routeIs('dashboardKeuanganPusat'))
+
+                    @if (Str::startsWith(Route::currentRouteName(), 'dashboardKeuanganPusat') ||
+                            Str::startsWith(Route::currentRouteName(), 'datakeuangan') ||
+                            Str::startsWith(Route::currentRouteName(), 'keuangan.store'))
                         <a href="{{ route('dashboardKeuanganPusat') }}">
                             <i class="fas fa-tachometer-alt"></i>
                             <p>Dashboard Keuangan</p>
                         </a>
                     @endif
+
                     {{-- Jika sedang di halaman Berita, arahkan ke dashboard berita --}}
-                    @if (request()->routeIs('dashboardBeritaPusat'))
+                    @if (Str::startsWith(Route::currentRouteName(), 'dashboardBeritaPusat') ||
+                            Str::startsWith(Route::currentRouteName(), 'databerita') ||
+                            Str::startsWith(Route::currentRouteName(), 'berita.store') ||
+                            Str::startsWith(Route::currentRouteName(), 'berita.edit'))
                         <a href="{{ route('dashboardBeritaPusat') }}">
                             <i class="fas fa-tachometer-alt"></i>
                             <p>Dashboard Berita</p>
                         </a>
                     @endif
+
                     {{-- Jika di halaman Pemberdayaan Pusat, arahkan ke dashboard Report --}}
-                    @if (request()->routeIs('dashboardReportPusat'))
+                    @if (Str::startsWith(Route::currentRouteName(), 'dashboardReportPusat') ||
+                            Str::startsWith(Route::currentRouteName(), 'reportAnak') ||
+                            Str::startsWith(Route::currentRouteName(), 'reportTutorPekanan') ||
+                            Str::startsWith(Route::currentRouteName(), 'reportTutorPendidikan')||
+                            Str::startsWith(Route::currentRouteName(), 'shalterAbsenReport')||
+                            Str::startsWith(Route::currentRouteName(), 'shalterSuratAnakReport'))
                         <a href="{{ route('dashboardReportPusat') }}">
                             <i class="fas fa-tachometer-alt"></i>
                             <p>Dashboard Report</p>
@@ -110,7 +128,128 @@
                     @endif
                 </li>
 
-                {{-- Dashboard Pemberdayaan Pusat --}}
+                {{-- Keuangan Pusat --}}
+                @if (Str::startsWith(Route::currentRouteName(), 'dashboardKeuanganPusat') ||
+                        Str::startsWith(Route::currentRouteName(), 'datakeuangan') ||
+                        Str::startsWith(Route::currentRouteName(), 'keuangan.store'))
+                    <li
+                        class="nav-item {{ request()->routeIs('datakeuangan') || request()->routeIs('keuangan.store') ? 'active' : '' }}">
+                        <a href="#importData" data-bs-toggle="collapse" class="nav-link">
+                            <i class="fas fa-database"></i>
+                            <p>Keuangan Pusat</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse {{ request()->routeIs('datakeuangan') || request()->routeIs('keuangan.store') ? 'show' : '' }}"
+                            id="importData">
+                            <ul class="nav nav-collapse">
+                                <li
+                                    class="{{ request()->routeIs('datakeuangan') || request()->routeIs('keuangan.store') ? 'active' : '' }}">
+                                    <a href="{{ route('datakeuangan') }}">
+                                        <span class="sub-item">Data Keuangan</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                @endif
+
+                {{-- Report Pusat --}}
+                @if (Str::startsWith(Route::currentRouteName(), 'dashboardReportPusat') ||
+                        Str::startsWith(Route::currentRouteName(), 'reportAnak') ||
+                        Str::startsWith(Route::currentRouteName(), 'reportTutorPekanan') ||
+                        Str::startsWith(Route::currentRouteName(), 'reportTutorPendidikan')||
+                        Str::startsWith(Route::currentRouteName(), 'shalterAbsenReport')||
+                        Str::startsWith(Route::currentRouteName(), 'shalterSuratAnakReport'))
+                    <li class="nav-item {{ request()->routeIs('reportAnak') ? 'active' : '' }}">
+                        <a href="{{ route('reportAnak') }}">
+                            <i class="fas fa-database"></i>
+                            <p>Anak Report</p>
+                        </a>
+                    </li>
+
+                    <li
+                        class="nav-item  {{ request()->routeIs('reportTutorPekanan') || request()->routeIs('reportTutorPendidikan') ? 'active' : '' }}">
+                        <a data-bs-toggle="collapse" href="#tutorReport">
+                            <i class="fas fa-database"></i>
+                            <p>Tutor Report</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse {{ request()->routeIs('reportTutorPekanan') || request()->routeIs('reportTutorPendidikan') ? 'show' : '' }}"
+                            id="tutorReport">
+                            <ul class="nav nav-collapse">
+                                <li class="{{ request()->routeIs('reportTutorPekanan') ? 'active' : '' }}">
+                                    <a href="{{ route('reportTutorPekanan') }}">
+                                        <span class="sub-item">Tutor Report Pekanan</span>
+                                    </a>
+                                </li>
+                                <li class="{{ request()->routeIs('reportTutorPendidikan') ? 'active' : '' }}">
+                                    <a href="{{ route('reportTutorPendidikan') }}">
+                                        <span class="sub-item">Tutor Report Pendidikan</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item {{ request()->routeIs('shalterAbsenReport') || request()->routeIs('shalterSuratAnakReport') ? 'active' : '' }}">
+                        <a data-bs-toggle="collapse" href="#shalterReport">
+                            <i class="fas fa-database"></i>
+                            <p>Shalter Report</p>
+                            <span class="caret"></span>
+                        </a>
+                        <div class="collapse {{ request()->routeIs('shalterAbsenReport') || request()->routeIs('shalterSuratAnakReport') ? 'show' : '' }}"
+                            id="shalterReport">
+                            <ul class="nav nav-collapse">
+                                <li class="{{ request()->routeIs('shalterAbsenReport') ? 'active' : '' }}">
+                                    <a href="{{ route('shalterAbsenReport') }}">
+                                        <span class="sub-item">Shalter Absensi Report</span>
+                                    </a>
+                                </li>
+                                <li class="{{ request()->routeIs('shalterSuratAnakReport') ? 'active' : '' }}">
+                                    <a href="{{ route('shalterSuratAnakReport') }}">
+                                        <span class="sub-item">Surat Anak</span>
+                                    </a>
+                                </li>
+                                <li><a href="#"><span class="sub-item">Report Anak</span></a></li>
+                                <li><a href="#"><span class="sub-item">Histori Anak</span></a></li>
+                                <li><a href="#"><span class="sub-item">Aktivitas Anak</span></a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('dashboardReportPusat') }}">
+                            <i class="fas fa-database"></i>
+                            <p>Cabang Report</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('dashboardReportPusat') }}">
+                            <i class="fas fa-database"></i>
+                            <p>CPB Report</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('dashboardReportPusat') }}">
+                            <i class="fas fa-database"></i>
+                            <p>Donatur Report</p>
+                        </a>
+                    </li>
+                @endif
+
+                {{-- Berita Pusat --}}
+                @if (Str::startsWith(Route::currentRouteName(), 'dashboardBeritaPusat') ||
+                        Str::startsWith(Route::currentRouteName(), 'databerita') ||
+                        Str::startsWith(Route::currentRouteName(), 'berita.store') ||
+                        Str::startsWith(Route::currentRouteName(), 'berita.edit'))
+                    <li
+                        class="nav-item {{ request()->routeIs('databerita') || request()->routeIs('berita.store') || request()->routeIs('berita.edit') ? 'active' : '' }}">
+                        <a href="{{ route('databerita') }}">
+                            <i class="fas fa-database"></i>
+                            <p>Berita</p>
+                        </a>
+                    </li>
+                @endif
+
 
                 <!-- Sidebar Pemberdayaan Admin Pusat -->
                 @if (Str::startsWith(Route::currentRouteName(), 'dashboardPemberdayaanPusat') ||
@@ -125,28 +264,33 @@
                         Str::startsWith(Route::currentRouteName(), 'nonAnakBinaan.show') ||
                         Str::startsWith(Route::currentRouteName(), 'editAnakBinaan') ||
                         Str::startsWith(Route::currentRouteName(), 'editPendidikanAnak') ||
-                        Str::startsWith(Route::currentRouteName(), 'keluarga')||
-                        Str::startsWith(Route::currentRouteName(), 'Keluarga.show')||
-                        Str::startsWith(Route::currentRouteName(), 'editKeluarga')||
-                        Str::startsWith(Route::currentRouteName(), 'editDataAyah')||
-                        Str::startsWith(Route::currentRouteName(), 'editDataIbu')||
-                        Str::startsWith(Route::currentRouteName(), 'editDataWali')||
-                        Str::startsWith(Route::currentRouteName(), 'surveykeluarga')||
-                        Str::startsWith(Route::currentRouteName(), 'validasisurveykeluarga')||
-                        Str::startsWith(Route::currentRouteName(), 'datakelompokshelter')||
-                        Str::startsWith(Route::currentRouteName(), 'surveykeluarga.show')||
-                        Str::startsWith(Route::currentRouteName(), 'validasisurveykeluarga.show'))
+                        Str::startsWith(Route::currentRouteName(), 'keluarga') ||
+                        Str::startsWith(Route::currentRouteName(), 'Keluarga.show') ||
+                        Str::startsWith(Route::currentRouteName(), 'editKeluarga') ||
+                        Str::startsWith(Route::currentRouteName(), 'editDataAyah') ||
+                        Str::startsWith(Route::currentRouteName(), 'editDataIbu') ||
+                        Str::startsWith(Route::currentRouteName(), 'editDataWali') ||
+                        Str::startsWith(Route::currentRouteName(), 'surveykeluarga') ||
+                        Str::startsWith(Route::currentRouteName(), 'validasisurveykeluarga') ||
+                        Str::startsWith(Route::currentRouteName(), 'datakelompokshelter') ||
+                        Str::startsWith(Route::currentRouteName(), 'surveykeluarga.show') ||
+                        Str::startsWith(Route::currentRouteName(), 'validasisurveykeluarga.show') ||
+                        Str::startsWith(Route::currentRouteName(), 'datakelompokshelter.show') ||
+                        Str::startsWith(Route::currentRouteName(), 'kelompok.create') ||
+                        Str::startsWith(Route::currentRouteName(), 'kelompok.edit') ||
+                        Str::startsWith(Route::currentRouteName(), 'pindahanak') ||
+                        Str::startsWith(Route::currentRouteName(), 'kelompok.createanak'))
                     {{-- @if (request()->routeIs('dashboardPemberdayaanPusat')) --}}
 
                     <li
-                        class="nav-item {{ request()->routeIs('form_keluarga_baru') || request()->routeIs('calonAnakBinaan') || request()->routeIs('AnakBinaan') || request()->routeIs('NonAnakBinaan') || request()->routeIs('calonAnakBinaan.show') || request()->routeIs('aktivasicalonAnakBinaan') || request()->routeIs('editcalonAnakBinaan') || request()->routeIs('editPendidikanAnakBinaan') || request()->routeIs('nonAnakBinaan.show') || request()->routeIs('AnakBinaan.show') || request()->routeIs('editAnakBinaan') || request()->routeIs('editPendidikanAnak') || request()->routeIs('keluarga') || request()->routeIs('Keluarga.show') || request()->routeIs('editKeluarga')  || request()->routeIs('editDataAyah') || request()->routeIs('editDataIbu') || request()->routeIs('editDataWali') || request()->routeIs('surveykeluarga') || request()->routeIs('validasisurveykeluarga') || request()->routeIs('surveykeluarga.show') || request()->routeIs('validasisurveykeluarga.show') ? 'active' : '' }}">
+                        class="nav-item {{ request()->routeIs('form_keluarga_baru') || request()->routeIs('calonAnakBinaan') || request()->routeIs('AnakBinaan') || request()->routeIs('NonAnakBinaan') || request()->routeIs('calonAnakBinaan.show') || request()->routeIs('aktivasicalonAnakBinaan') || request()->routeIs('editcalonAnakBinaan') || request()->routeIs('editPendidikanAnakBinaan') || request()->routeIs('nonAnakBinaan.show') || request()->routeIs('AnakBinaan.show') || request()->routeIs('editAnakBinaan') || request()->routeIs('editPendidikanAnak') || request()->routeIs('keluarga') || request()->routeIs('Keluarga.show') || request()->routeIs('editKeluarga') || request()->routeIs('editDataAyah') || request()->routeIs('editDataIbu') || request()->routeIs('editDataWali') || request()->routeIs('surveykeluarga') || request()->routeIs('validasisurveykeluarga') || request()->routeIs('surveykeluarga.show') || request()->routeIs('validasisurveykeluarga.show') ? 'active' : '' }}">
                         <a data-bs-toggle="collapse" href="#dataBinaan"
                             class="{{ request()->routeIs('form_keluarga_baru') || request()->routeIs('ajukan_anak') || request()->routeIs('calonAnakBinaan') || request()->routeIs('AnakBinaan') || request()->routeIs('NonAnakBinaan') || request()->routeIs('calonAnakBinaan.show') || request()->routeIs('aktivasicalonAnakBinaan') || request()->routeIs('editcalonAnakBinaan') || request()->routeIs('editPendidikanAnakBinaan') || request()->routeIs('nonAnakBinaan.show') || request()->routeIs('AnakBinaan.show') || request()->routeIs('editAnakBinaan') || request()->routeIs('editPendidikanAnak') || request()->routeIs('keluarga') || request()->routeIs('Keluarga.show') || request()->routeIs('editKeluarga') || request()->routeIs('editDataAyah') || request()->routeIs('editDataIbu') || request()->routeIs('editDataWali') || request()->routeIs('surveykeluarga') || request()->routeIs('validasisurveykeluarga') || request()->routeIs('surveykeluarga.show') || request()->routeIs('validasisurveykeluarga.show') ? 'active' : '' }}">
                             <i class="fas fa-database"></i>
                             <p>Data Binaan</p>
                             <span class="caret"></span>
                         </a>
-                        <div class="collapse {{ request()->routeIs('form_keluarga_baru') || request()->routeIs('ajukan_anak') || request()->routeIs('calonAnakBinaan') || request()->routeIs('AnakBinaan') || request()->routeIs('NonAnakBinaan') || request()->routeIs('calonAnakBinaan.show') || request()->routeIs('aktivasicalonAnakBinaan') || request()->routeIs('editcalonAnakBinaan') || request()->routeIs('editPendidikanAnakBinaan') || request()->routeIs('nonAnakBinaan.show') || request()->routeIs('AnakBinaan.show') || request()->routeIs('editAnakBinaan') || request()->routeIs('editPendidikanAnak') || request()->routeIs('keluarga')  || request()->routeIs('Keluarga.show') || request()->routeIs('editKeluarga') || request()->routeIs('editDataAyah') || request()->routeIs('editDataIbu') || request()->routeIs('editDataWali') || request()->routeIs('surveykeluarga') || request()->routeIs('validasisurveykeluarga') || request()->routeIs('surveykeluarga.show') || request()->routeIs('validasisurveykeluarga.show') ? 'show' : '' }}"
+                        <div class="collapse {{ request()->routeIs('form_keluarga_baru') || request()->routeIs('ajukan_anak') || request()->routeIs('calonAnakBinaan') || request()->routeIs('AnakBinaan') || request()->routeIs('NonAnakBinaan') || request()->routeIs('calonAnakBinaan.show') || request()->routeIs('aktivasicalonAnakBinaan') || request()->routeIs('editcalonAnakBinaan') || request()->routeIs('editPendidikanAnakBinaan') || request()->routeIs('nonAnakBinaan.show') || request()->routeIs('AnakBinaan.show') || request()->routeIs('editAnakBinaan') || request()->routeIs('editPendidikanAnak') || request()->routeIs('keluarga') || request()->routeIs('Keluarga.show') || request()->routeIs('editKeluarga') || request()->routeIs('editDataAyah') || request()->routeIs('editDataIbu') || request()->routeIs('editDataWali') || request()->routeIs('surveykeluarga') || request()->routeIs('validasisurveykeluarga') || request()->routeIs('surveykeluarga.show') || request()->routeIs('validasisurveykeluarga.show') ? 'show' : '' }}"
                             id="dataBinaan">
                             <ul class="nav nav-collapse">
                                 <li>
@@ -180,21 +324,21 @@
                                 <li>
                                     <a href="{{ route('keluarga') }}"
                                         class="{{ request()->routeIs('keluarga') || request()->routeIs('Keluarga.show') || request()->routeIs('editKeluarga') || request()->routeIs('editDataAyah') || request()->routeIs('editDataIbu') || request()->routeIs('editDataWali') ? 'active' : '' }}"
-                                        style="{{ request()->routeIs('keluarga') || request()->routeIs('Keluarga.show') || request()->routeIs('editKeluarga') || request()->routeIs('editDataAyah') || request()->routeIs('editDataIbu') || request()->routeIs('editDataWali')  ? 'color: #6861ce; font-weight: bold;' : '' }}">
+                                        style="{{ request()->routeIs('keluarga') || request()->routeIs('Keluarga.show') || request()->routeIs('editKeluarga') || request()->routeIs('editDataAyah') || request()->routeIs('editDataIbu') || request()->routeIs('editDataWali') ? 'color: #6861ce; font-weight: bold;' : '' }}">
                                         <span class="sub-item">Data Keluarga</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('surveykeluarga') }}"
-                                        class="{{ request()->routeIs('surveykeluarga') || request()->routeIs('surveykeluarga.show')   ? 'active' : '' }}"
-                                        style="{{ request()->routeIs('surveykeluarga') || request()->routeIs('surveykeluarga.show')  ? 'color: #6861ce; font-weight: bold;' : '' }}">
+                                        class="{{ request()->routeIs('surveykeluarga') || request()->routeIs('surveykeluarga.show') ? 'active' : '' }}"
+                                        style="{{ request()->routeIs('surveykeluarga') || request()->routeIs('surveykeluarga.show') ? 'color: #6861ce; font-weight: bold;' : '' }}">
                                         <span class="sub-item">Data Isi Survey</span>
                                     </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('validasisurveykeluarga') }}"
-                                        class="{{ request()->routeIs('validasisurveykeluarga') || request()->routeIs('validasisurveykeluarga.show')  ? 'active' : '' }}"
-                                        style="{{ request()->routeIs('validasisurveykeluarga') || request()->routeIs('validasisurveykeluarga.show')  ? 'color: #6861ce; font-weight: bold;' : '' }}">
+                                        class="{{ request()->routeIs('validasisurveykeluarga') || request()->routeIs('validasisurveykeluarga.show') ? 'active' : '' }}"
+                                        style="{{ request()->routeIs('validasisurveykeluarga') || request()->routeIs('validasisurveykeluarga.show') ? 'color: #6861ce; font-weight: bold;' : '' }}">
                                         <span class="sub-item">Data Validasi Survey</span>
                                     </a>
                                 </li>
@@ -202,19 +346,22 @@
                         </div>
                     </li>
 
-                    <li class="nav-item {{ request()->routeIs('datakelompokshelter') ? 'active' : '' }}">
-                        <a data-bs-toggle="collapse" href="#dataKelompok" class="{{ request()->routeIs('datakelompokshelter')? 'active' : '' }}" >
+                    <li
+                        class="nav-item {{ request()->routeIs('datakelompokshelter') || request()->routeIs('datakelompokshelter.show') || request()->routeIs('kelompok.create') || request()->routeIs('kelompok.edit') || request()->routeIs('pindahanak') || request()->routeIs('kelompok.createanak') ? 'active' : '' }}">
+                        <a data-bs-toggle="collapse" href="#dataKelompok"
+                            class="{{ request()->routeIs('datakelompokshelter') || request()->routeIs('datakelompokshelter.show') || request()->routeIs('kelompok.create') || request()->routeIs('kelompok.edit') || request()->routeIs('pindahanak') || request()->routeIs('kelompok.createanak') ? 'active' : '' }}">
                             <i class="fas fa-users"></i>
                             <p>Data Kelompok</p>
                             <span class="caret"></span>
                         </a>
-                        <div class="collapse {{ request()->routeIs('datakelompokshelter') ? 'show' : '' }}" id="dataKelompok">
+                        <div class="collapse {{ request()->routeIs('datakelompokshelter') || request()->routeIs('datakelompokshelter.show') || request()->routeIs('kelompok.create') || request()->routeIs('kelompok.edit') || request()->routeIs('pindahanak') || request()->routeIs('kelompok.createanak') || request()->routeIs('pindahanak') ? 'show' : '' }}"
+                            id="dataKelompok">
 
                             <ul class="nav nav-collapse">
                                 <li>
                                     <a href="{{ route('datakelompokshelter') }}"
-                                        class="{{ request()->routeIs('datakelompokshelter')  ? 'active' : '' }}"
-                                        style="{{ request()->routeIs('datakelompokshelter')  ? 'color: #6861ce; font-weight: bold;' : '' }}">
+                                        class="{{ request()->routeIs('datakelompokshelter') || request()->routeIs('datakelompokshelter.show') || request()->routeIs('kelompok.create') || request()->routeIs('kelompok.edit') || request()->routeIs('pindahanak') || request()->routeIs('kelompok.createanak') ? 'active' : '' }}"
+                                        style="{{ request()->routeIs('datakelompokshelter') || request()->routeIs('datakelompokshelter.show') || request()->routeIs('kelompok.create') || request()->routeIs('kelompok.edit') || request()->routeIs('pindahanak') || request()->routeIs('kelompok.createanak') ? 'color: #6861ce; font-weight: bold;' : '' }}">
                                         <span class="sub-item">Data Kelompok Shelter</span>
                                     </a>
                                 </li>
@@ -494,88 +641,7 @@
                     </li>
                 @endif
 
-                {{-- Report Pusat --}}
-                @if (request()->routeIs('dashboardReportPusat'))
-                    <li class="nav-item">
-                        <a href="{{ route('dashboardReportPusat') }}">
-                            <i class="fas fa-database"></i>
-                            <p>Anak Report</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a data-bs-toggle="collapse" href="#tutorReport">
-                            <i class="fas fa-database"></i>
-                            <p>Tutor Report</p>
-                            <span class="caret"></span>
-                        </a>
-                        <div class="collapse" id="tutorReport">
-                            <ul class="nav nav-collapse">
-                                <li><a href="#"><span class="sub-item">Tutor Report Pekanan</span></a></li>
-                                <li><a href="#"><span class="sub-item">Tutor Report Pendidikan</span></a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a data-bs-toggle="collapse" href="#shalterReport">
-                            <i class="fas fa-database"></i>
-                            <p>Shalter Report</p>
-                            <span class="caret"></span>
-                        </a>
-                        <div class="collapse" id="shalterReport">
-                            <ul class="nav nav-collapse">
-                                <li><a href="#"><span class="sub-item">Shalter Absensi Report</span></a></li>
-                                <li><a href="#"><span class="sub-item">Surat Anak</span></a></li>
-                                <li><a href="#"><span class="sub-item">Report Anak</span></a></li>
-                                <li><a href="#"><span class="sub-item">Histori Anak</span></a></li>
-                                <li><a href="#"><span class="sub-item">Aktivitas Anak</span></a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('dashboardReportPusat') }}">
-                            <i class="fas fa-database"></i>
-                            <p>Cabang Report</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('dashboardReportPusat') }}">
-                            <i class="fas fa-database"></i>
-                            <p>CPB Report</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{ route('dashboardReportPusat') }}">
-                            <i class="fas fa-database"></i>
-                            <p>Donatur Report</p>
-                        </a>
-                    </li>
-                @endif
 
-                {{-- Keuangan Pusat --}}
-                @if (request()->routeIs('dashboardKeuanganPusat'))
-                    <li class="nav-item">
-                        <a data-bs-toggle="collapse" href="#importData">
-                            <i class="fas fa-database"></i>
-                            <p>Import Data</p>
-                            <span class="caret"></span>
-                        </a>
-                        <div class="collapse" id="importData">
-                            <ul class="nav nav-collapse">
-                                <li><a href="#"><span class="sub-item">Keuangan Binaan</span></a></li>
-                            </ul>
-                        </div>
-                    </li>
-                @endif
-
-                {{-- Berita Pusat --}}
-                @if (request()->routeIs('dashboardBeritaPusat'))
-                    <li class="nav-item">
-                        <a href="{{ route('dashboardBeritaPusat') }}">
-                            <i class="fas fa-database"></i>
-                            <p>Berita</p>
-                        </a>
-                    </li>
-                @endif
 
                 {{-- Kembali ke Beranda --}}
                 <li class="nav-item {{ request()->routeIs('dashboardApkShalterPusat') ? 'active' : '' }}">

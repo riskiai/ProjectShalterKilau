@@ -6,6 +6,11 @@
         .status-button {
             width: 120px;
             font-size: 14px;
+            color: white;
+        }
+
+        .status-button:hover {
+            color: white;
         }
     </style>
 @endsection

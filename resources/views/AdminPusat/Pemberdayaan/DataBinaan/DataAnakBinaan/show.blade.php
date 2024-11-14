@@ -55,11 +55,16 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header info-section">
-                            <h4 class="card-title">Detail Non Anak Binaan</h4>
+                            <h4 class="card-title">Detail Anak Binaan</h4>
                             <div class="status-badge">
                                 <span class="btn btn-info">
                                     <i class="fa fa-user" style="margin-right: 10px;"></i>
-                                    {{ $anak->jenis_anak_binaan == 'NPB' || $anak->jenis_anak_binaan == 'BCPB' ? 'Calon Non-Beasiswa' : 'Calon Non-Beasiswa' }}
+                                    {{ 
+                                        $anak->status_cpb == 'CPB' ? 'Calon Penerima Beasiswa' : 
+                                        ($anak->status_cpb == 'PB' ? 'Penerima Beasiswa' : 
+                                        ($anak->jenis_anak_binaan == 'NPB' || $anak->jenis_anak_binaan == 'BCPB' ? 'Calon Non-Beasiswa' : 'Calon Non-Beasiswa')) 
+                                    }}
+                                    
                                 </span>
                                 <span class="btn btn-warning text-white">
                                     @if ($anak->status_validasi === \App\Models\Anak::STATUS_AKTIF)
@@ -85,7 +90,7 @@
 
                                     <div>
                                         <span class="detail-value">
-                                            Shelter : {{ optional($anak->shelter)->name ?? '-' }}
+                                            Shelter : {{ optional($anak->shelter)->nama_shelter ?? '-' }}
                                         </span>
                                     </div>
 

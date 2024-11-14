@@ -60,31 +60,32 @@ class Anak extends Model
    const STATUS_CPB_CPB = 'CPB';
    const STATUS_CPB_PB = 'PB';
 
-   // Override boot method to automatically set status_cpb based on jenis_anak_binaan
-   protected static function boot()
-   {
-       parent::boot();
-
-       // Listen to the retrieved event to update status_cpb
-       static::retrieved(function ($anak) {
-           $anak->updateStatusCpb();
-       });
-
-       // Ensure the status_cpb is updated before saving the model
-       static::saving(function ($anak) {
-           $anak->updateStatusCpb();
-       });
-   }
-
-   // Add logic to handle status_cpb
-   public function updateStatusCpb()
-   {
-       if ($this->jenis_anak_binaan == 'BPCB') {
-           $this->attributes['status_cpb'] = self::STATUS_CPB_BCPB;
-       } elseif ($this->jenis_anak_binaan == 'NPB') {
-           $this->attributes['status_cpb'] = self::STATUS_CPB_NPB;
-       }
-   }
+    // Override boot method to disable automatic status_cpb update if it's CPB or PB
+    protected static function boot()
+    {
+        parent::boot();
+ 
+        // Disable automatic updating of status_cpb if the current status is CPB or PB
+        static::saving(function ($anak) {
+            $anak->updateStatusCpb();
+        });
+    }
+ 
+    // Only update status_cpb if it is not already CPB or PB
+    public function updateStatusCpb()
+    {
+        // Do not change status_cpb if it is already CPB or PB
+        if ($this->status_cpb === self::STATUS_CPB_CPB || $this->status_cpb === self::STATUS_CPB_PB) {
+            return;
+        }
+        
+        // Otherwise, determine status based on jenis_anak_binaan
+        if ($this->jenis_anak_binaan == 'BPCB') {
+            $this->attributes['status_cpb'] = self::STATUS_CPB_BCPB;
+        } elseif ($this->jenis_anak_binaan == 'NPB') {
+            $this->attributes['status_cpb'] = self::STATUS_CPB_NPB;
+        }
+    }
 
     public function keluarga()
     {
@@ -120,10 +121,12 @@ class Anak extends Model
     /**
      * Relasi ke tabel Donatur.
      */
+    // Models/Anak.php
     public function donatur()
     {
-        return $this->belongsTo(Donatur::class, 'id_donatur');
+        return $this->belongsTo(Donatur::class, 'id_donatur', 'id_donatur');
     }
+
 
     /**
      * Relasi ke tabel LevelAnakBinaan.
@@ -131,5 +134,10 @@ class Anak extends Model
     public function levelAnakBinaan()
     {
         return $this->belongsTo(LevelAnakBinaan::class, 'id_level_anak_binaan');
+    }
+
+    public function suratAb()
+    {
+        return $this->hasMany(SuratAb::class, 'id_anak');
     }
 }

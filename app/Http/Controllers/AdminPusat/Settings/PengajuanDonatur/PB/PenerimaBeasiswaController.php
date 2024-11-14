@@ -2,66 +2,96 @@
 
 namespace App\Http\Controllers\AdminPusat\Settings\PengajuanDonatur\PB;
 
-use App\Http\Controllers\Controller;
+use App\Models\Anak;
+use App\Models\Kacab;
+use App\Models\Survey;
+use App\Models\Wilbin;
+use App\Models\Donatur;
+use App\Models\Shelter;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class PenerimaBeasiswaController extends Controller
 {
-    public function pengajuanDonatur(Request $request) {
-        // Filter by Kacab, Wilbin, Shelter (dapat disesuaikan)
-        // $query = PenerimaBeasiswa::with('kacab', 'wilbin', 'shelter'); // Commented out for now (real model connection)
-        
-        // If filtering logic is implemented later, below can be uncommented
-        // if ($request->has('id_kacab') && $request->id_kacab != '') {
-        //     $query->where('id_kacab', $request->id_kacab);
-        // }
+    public function pengajuanDonatur(Request $request)
+    {
+        // Mengambil data Anak dengan status CPB dan PB serta donatur yang sesuai
+        $query = Anak::with(['donatur.kacab', 'donatur.wilbin', 'donatur.shelter'])
+            ->whereIn('status_cpb', ['CPB', 'PB']); 
     
-        // if ($request->has('id_wilbin') && $request->id_wilbin != '') {
-        //     $query->where('id_wilbin', $request->id_wilbin);
-        // }
+        // Filter berdasarkan atribut dari Donatur
+        if ($request->has('id_kacab') && $request->id_kacab != '') {
+            $query->whereHas('donatur', function ($q) use ($request) {
+                $q->where('id_kacab', $request->id_kacab);
+            });
+        }
     
-        // if ($request->has('id_shelter') && $request->id_shelter != '') {
-        //     $query->where('id_shelter', $request->id_shelter);
-        // }
-
-        // Dummy data penerima beasiswa
-        $data_penerima_beasiswa = [
-            ['id' => 1, 'nama_lengkap' => 'Anisa Sari', 'agama' => 'Islam', 'status_cpb' => 'CPB', 'jk' => 'P', 'anak_ke' => 1, 'hasil_survey' => 'Layak', 'donatur' => 'Belum ada Donatur'],
-            ['id' => 2, 'nama_lengkap' => 'Budi Raharjo', 'agama' => 'Islam', 'status_cpb' => 'PB', 'jk' => 'L', 'anak_ke' => 2, 'hasil_survey' => 'Layak', 'donatur' => 'John Doe'],
-            ['id' => 3, 'nama_lengkap' => 'Citra Ayu', 'agama' => 'Kristen', 'status_cpb' => 'CPB', 'jk' => 'P', 'anak_ke' => 3, 'hasil_survey' => 'Kurang Layak', 'donatur' => 'Belum ada Donatur'],
-            ['id' => 4, 'nama_lengkap' => 'Dewi Larasati', 'agama' => 'Islam', 'status_cpb' => 'PB', 'jk' => 'P', 'anak_ke' => 1, 'hasil_survey' => 'Layak', 'donatur' => 'Belum ada Donatur'],
-        ];
-
-        // Mengirim data dummy ke view
-        return view('AdminPusat.Settings.PengajuanDonatur.PenerimaBeasiswa.index', compact('data_penerima_beasiswa'));
+        if ($request->has('id_wilbin') && $request->id_wilbin != '') {
+            $query->whereHas('donatur', function ($q) use ($request) {
+                $q->where('id_wilbin', $request->id_wilbin);
+            });
+        }
+    
+        if ($request->has('id_shelter') && $request->id_shelter != '') {
+            $query->whereHas('donatur', function ($q) use ($request) {
+                $q->where('id_shelter', $request->id_shelter);
+            });
+        }
+    
+        // Mendapatkan data anak setelah filter
+        $data_penerima_beasiswa = $query->get()->map(function ($anak) {
+            $survey = Survey::where('id_keluarga', $anak->id_keluarga)->first();
+            $hasil_survey = $survey ? $survey->hasil_survey : 'Tidak Layak';
+    
+            return [
+                'id' => $anak->id_anak,
+                'nama_lengkap' => $anak->full_name,
+                'agama' => $anak->agama,
+                'status_cpb' => $anak->status_cpb,
+                'jk' => $anak->jenis_kelamin,
+                'anak_ke' => $anak->anak_ke,
+                'hasil_survey' => $hasil_survey,
+                'donatur' => $anak->donatur ? $anak->donatur->nama_lengkap : 'Belum ada Donatur'
+            ];
+        });
+    
+        // Filter hanya donatur yang sesuai untuk dropdown
+        $donaturs = Donatur::where('diperuntukan', 'Pengajuan Donatur (Calon Anak Penerima Beasiswa)')->get();
+    
+        // Memuat data untuk dropdown filter
+        $kacabs = Kacab::all();
+        $wilbins = $request->filled('id_kacab') ? Wilbin::where('id_kacab', $request->id_kacab)->get() : [];
+        $shelters = $request->filled('id_wilbin') ? Shelter::where('id_wilbin', $request->id_wilbin)->get() : [];
+    
+        return view('AdminPusat.Settings.PengajuanDonatur.PenerimaBeasiswa.index', compact('data_penerima_beasiswa', 'donaturs', 'kacabs', 'wilbins', 'shelters'));
     }
-
-    public function pengajuanDonaturNpb() {
-        // Filter by Kacab, Wilbin, Shelter (dapat disesuaikan)
-        // $query = PenerimaBeasiswa::with('kacab', 'wilbin', 'shelter'); // Commented out for now (real model connection)
-        
-        // If filtering logic is implemented later, below can be uncommented
-        // if ($request->has('id_kacab') && $request->id_kacab != '') {
-        //     $query->where('id_kacab', $request->id_kacab);
-        // }
     
-        // if ($request->has('id_wilbin') && $request->id_wilbin != '') {
-        //     $query->where('id_wilbin', $request->id_wilbin);
-        // }
     
-        // if ($request->has('id_shelter') && $request->id_shelter != '') {
-        //     $query->where('id_shelter', $request->id_shelter);
-        // }
 
-         // Dummy data penerima beasiswa
-         $data_penerima_beasiswa_npb = [
-            ['id' => 1, 'nama_lengkap' => 'Anisa Sari', 'agama' => 'Islam', 'status_cpb' => 'NPB', 'jk' => 'P', 'anak_ke' => 1, 'hasil_survey' => 'Tidak Layak', 'donatur' => 'Belum ada Donatur'],
-            ['id' => 2, 'nama_lengkap' => 'Budi Raharjo', 'agama' => 'Islam', 'status_cpb' => 'NPB', 'jk' => 'L', 'anak_ke' => 2, 'hasil_survey' => 'Tidak Layak', 'donatur' => 'John Doe'],
-            ['id' => 3, 'nama_lengkap' => 'Citra Ayu', 'agama' => 'Kristen', 'status_cpb' => 'NPB', 'jk' => 'P', 'anak_ke' => 3, 'hasil_survey' => 'Tidak Layak', 'donatur' => 'Belum ada Donatur'],
-            ['id' => 4, 'nama_lengkap' => 'Dewi Larasati', 'agama' => 'Islam', 'status_cpb' => 'NPB', 'jk' => 'P', 'anak_ke' => 1, 'hasil_survey' => 'Tidak Layak', 'donatur' => 'Belum ada Donatur'],
-        ];
-
-        // Mengirim data dummy ke view
-        return view('AdminPusat.Settings.PengajuanDonatur.NonPenerimaBeasiswa.index', compact('data_penerima_beasiswa_npb'));
+    public function update(Request $request, $id_anak) {
+        $anak = Anak::findOrFail($id_anak);
+        $anak->id_donatur = $request->id_donatur;
+        $anak->status_cpb = Anak::STATUS_CPB_PB;  // Menggunakan konstanta dari model Anak
+        $anak->save();
+    
+        // Redirect ke halaman pengajuan donatur dengan parameter untuk mempertahankan filter yang diperlukan
+        return redirect()->route('pengajuan_donatur', [
+            'id_kacab' => $request->input('id_kacab'), 
+            'id_wilbin' => $request->input('id_wilbin'), 
+            'id_shelter' => $request->input('id_shelter')
+        ])->with('success', 'Donatur berhasil ditambahkan');
     }
+    
+
+    public function destroy($id_anak) {
+        $anak = Anak::find($id_anak);
+        if (!$anak) {
+            return redirect()->route('pengajuan_donatur')->with('error', 'Data tidak ditemukan.');
+        }
+        $anak->id_donatur = null;
+        $anak->status_cpb = 'CPB';
+        $anak->save();
+        return redirect()->route('pengajuan_donatur')->with('success', 'Donatur berhasil dihapus');
+    }
+    
 }

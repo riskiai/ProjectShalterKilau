@@ -67,7 +67,7 @@ class FormKeluargaBaruController extends Controller
             'tempat_lahir' => 'required|string|max:255',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|string|in:Laki-laki,Perempuan',
-            'tinggal_bersama' => 'required|string|in:Ayah,Wali',
+            'tinggal_bersama' => 'required|string|in:Ayah,Ibu,Wali',
             'jenis_anak_binaan' => 'required|string|in:BPCB,NPB',
             'hafalan' => 'required|string|in:Tahfidz,Non-Tahfidz',
             'pelajaran_favorit' => 'nullable|string|max:255',

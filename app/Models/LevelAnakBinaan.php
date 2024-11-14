@@ -9,7 +9,7 @@ class LevelAnakBinaan extends Model
 {
     use HasFactory;
 
-    protected $table = 'level_as_anak_binaan'; 
+    protected $table = 'level_as_anak_binaan';
 
     protected $primaryKey = 'id_level_anak_binaan';
 

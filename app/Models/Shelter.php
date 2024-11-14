@@ -31,4 +31,9 @@ class Shelter extends Model
     {
         return $this->hasMany(Kelompok::class, 'id_shelter');
     }
+
+    public function anak()
+    {
+        return $this->hasMany(Anak::class, 'id_shelter');
+    }
 }

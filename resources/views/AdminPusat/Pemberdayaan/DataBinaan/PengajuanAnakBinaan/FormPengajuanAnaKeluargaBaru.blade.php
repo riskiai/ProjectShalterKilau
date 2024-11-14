@@ -336,6 +336,7 @@
                                                             <select name="tinggal_bersama" class="form-control" required>
                                                                 <option value="">Pilih Tinggal Bersama</option>
                                                                 <option value="Ayah">Tinggal Bersama Ayah</option>
+                                                                <option value="Ibu">Tinggal Bersama Ibu</option>
                                                                 <option value="Wali">Tinggal Bersama Wali</option>
                                                             </select>
                                                         </div>

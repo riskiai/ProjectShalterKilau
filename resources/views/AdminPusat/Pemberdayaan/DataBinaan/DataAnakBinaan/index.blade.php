@@ -86,7 +86,7 @@
                                         <td>{{ $anak->agama }}</td>
                                         <td>{{ $anak->jenis_kelamin }}</td>
                                         <td>{{ $anak->keluarga->kepala_keluarga }}</td>
-                                        <td>{{ $anak->jenis_anak_binaan ?? '-' }}</td>
+                                        <td>{{ $anak->status_cpb ?? '-' }}</td>
                                         <td>
                                             <div class="form-button-action">
                                                 <!-- Tombol Show (Tanda Mata) -->

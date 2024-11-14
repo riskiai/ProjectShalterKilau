@@ -102,7 +102,7 @@
                                     <h4 class="mt-3">{{ $anak->full_name }}</h4>
                                     <div>
                                         <span class="detail-value">
-                                            Shelter : {{ optional($anak->shelter)->name ?? '-' }}
+                                            Shelter : {{ optional($anak->shelter)->nama_shelter ?? '-' }}
                                         </span>
                                     </div>
                                     <div>

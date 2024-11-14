@@ -35,4 +35,11 @@ class Kelompok extends Model
     {
         return $this->belongsTo(LevelAnakBinaan::class, 'id_level_anak_binaan');
     }
+
+    public function anak()
+    {
+        return $this->hasMany(Anak::class, 'id_kelompok');
+    }
+
+
 }

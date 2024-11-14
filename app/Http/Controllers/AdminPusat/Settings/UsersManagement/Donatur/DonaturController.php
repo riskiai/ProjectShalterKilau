@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\AdminPusat\Settings\UsersManagement\Donatur;
 
+use App\Models\Anak;
+use App\Models\Bank;
+use App\Models\User;
 use App\Models\Kacab;
 use App\Models\Wilbin;
-use App\Models\Shelter;
 use App\Models\Donatur;
-use App\Models\User;
-use App\Models\Bank;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Shelter;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class DonaturController extends Controller
@@ -99,21 +100,32 @@ class DonaturController extends Controller
     public function show($id_donatur) {
         $donatur = Donatur::with(['user', 'kacab', 'wilbin', 'shelter', 'bank'])->findOrFail($id_donatur);
         
-        // Cek apakah tab anak asuh dipilih, jika ya, kirimkan data anak asuh
+        // Cek apakah tab anak asuh dipilih
         if (request()->has('tab') && request()->get('tab') == 'anak-asuh') {
-            $anak_asuh_count = 3; // Data dummy untuk anak asuh
-            $anak_asuh_list = [
-                ['nama' => 'Anak Asuh 1', 'umur' => '12 Tahun', 'kelas' => '6 SD'],
-                ['nama' => 'Anak Asuh 2', 'umur' => '13 Tahun', 'kelas' => '7 SMP'],
-                ['nama' => 'Anak Asuh 3', 'umur' => '11 Tahun', 'kelas' => '5 SD']
-            ];
-            // Kirim data anak asuh ke view
+            // Ambil data anak asuh yang terkait dengan donatur ini
+            $anak_asuh_list = Anak::with('anakPendidikan') // Menggunakan relasi untuk mengambil data pendidikan
+                ->where('id_donatur', $id_donatur)
+                ->get()
+                ->map(function ($anak) {
+                    return [
+                        'id' => $anak->id_anak, // Tambahkan id untuk route
+                        'nama' => $anak->full_name,
+                        'jenis_kelamin' => $anak->jenis_kelamin,
+                        'agama' => $anak->agama,
+                        'tanggal_lahir' => $anak->tanggal_lahir,
+                        'kelas' => $anak->anakPendidikan->kelas ?? '-' // Mengambil kelas dari relasi anakPendidikan
+                    ];
+                });
+    
+            $anak_asuh_count = $anak_asuh_list->count();
+    
             return view('AdminPusat.Settings.UsersManagement.Donatur.show', compact('donatur', 'anak_asuh_count', 'anak_asuh_list'));
         }
         
-        // Jika tab personal dipilih, kirim hanya data donatur
+        // Jika tab lain (informasi personal), kirim data donatur saja
         return view('AdminPusat.Settings.UsersManagement.Donatur.show', compact('donatur'));
-    }    
+    }
+    
 
     public function edit($id_donatur, Request $request) {
         // Temukan donatur berdasarkan ID

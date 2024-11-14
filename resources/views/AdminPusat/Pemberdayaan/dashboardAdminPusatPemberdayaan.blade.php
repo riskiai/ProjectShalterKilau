@@ -150,90 +150,91 @@
 
             <!-- Card Section -->
             <div class="row">
-                <!-- Card 1 -->
+                <!-- Anak Aktif -->
                 <div class="col-sm-6 col-md-3">
                     <div class="card card-stats card-round">
                         <div class="row align-items-center">
                             <div class="col-icon">
                                 <div class="icon-big text-center">
-                                    <i class="fas fa-user-friends"></i>
+                                    <i class="fas fa-user-check"></i>
                                 </div>
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <h4>4</h4>
-                                    <p>Data Calon Anak Binaan</p>
+                                    <h4>{{ $anakAktifCount }}</h4>
+                                    <p>Anak Aktif</p>
                                 </div>
                             </div>
                         </div>
                         <div class="more-info">
-                            <a href="{{ route('usersall') }}">More Info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ route('AnakBinaan') }}">More Info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 2 -->
+                <!-- Anak Belum Aktif -->
                 <div class="col-sm-6 col-md-3">
                     <div class="card card-stats card-round">
                         <div class="row align-items-center">
                             <div class="col-icon">
                                 <div class="icon-big text-center">
-                                    <i class="fas fa-user-friends"></i>
+                                    <i class="fas fa-user-times"></i>
                                 </div>
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <h4>3</h4>
-                                    <p>Data Anak Binaan</p>
+                                    <h4>{{ $anakBelumAktifCount }}</h4>
+                                    <p>Anak Belum Aktif</p>
                                 </div>
                             </div>
                         </div>
                         <div class="more-info">
-                            <a href="{{ route('donatur') }}">More Info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ route('calonAnakBinaan') }}">More Info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 3 -->
+                <!-- Data Survey -->
                 <div class="col-sm-6 col-md-3">
                     <div class="card card-stats card-round">
                         <div class="row align-items-center">
                             <div class="col-icon">
                                 <div class="icon-big text-center">
-                                    <i class="fas fa-exclamation-circle"></i>
+                                    <i class="fas fa-chart-bar"></i>
+
                                 </div>
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <h4>4</h4>
-                                    <p>Data yang belum Validasi Beasiswa</p>
+                                    <h4>{{ $surveyCount }}</h4>
+                                    <p>Data Survey</p>
                                 </div>
                             </div>
                         </div>
                         <div class="more-info">
-                            <a href="{{ route('usersall') }}">More Info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ route('validasisurveykeluarga') }}">More Info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Card 4 -->
+                <!-- Data Keluarga -->
                 <div class="col-sm-6 col-md-3">
                     <div class="card card-stats card-round">
                         <div class="row align-items-center">
                             <div class="col-icon">
                                 <div class="icon-big text-center">
-                                    <i class="fas fa-check-circle"></i>
+                                    <i class="fas fa-users"></i>
                                 </div>
                             </div>
                             <div class="col col-stats ms-3 ms-sm-0">
                                 <div class="numbers">
-                                    <h4>3</h4>
-                                    <p>Data yang sudah Validasi Beasiswa</p>
+                                    <h4>{{ $keluargaCount }}</h4>
+                                    <p>Data Keluarga</p>
                                 </div>
                             </div>
                         </div>
                         <div class="more-info">
-                            <a href="{{ route('donatur') }}">More Info <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="{{ route('keluarga') }}">More Info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>

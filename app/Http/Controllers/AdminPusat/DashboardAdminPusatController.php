@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers\AdminPusat;
 
+use App\Models\Anak;
+use App\Models\Bank;
 use App\Models\User;
+use App\Models\Kacab;
+use App\Models\Tutor;
+use App\Models\Materi;
+use App\Models\Survey;
+use App\Models\Wilbin;
+use App\Models\AlQuran;
 use App\Models\Donatur;
+use App\Models\Keluarga;
+use App\Models\Keuangan;
+use App\Models\AdminPusat;
+use App\Models\AdminCabang;
+use App\Models\AdminShelter;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\AdminCabang;
-use App\Models\AdminPusat;
-use App\Models\AdminShelter;
-use App\Models\AlQuran;
-use App\Models\Bank;
-use App\Models\Kacab;
-use App\Models\Materi;
-use App\Models\Tutor;
-use App\Models\Wilbin;
+use App\Models\Berita;
 
 class DashboardAdminPusatController extends Controller
 {
@@ -38,19 +43,39 @@ class DashboardAdminPusatController extends Controller
     }
 
 
-     public function dashboardPemberdayaanPusat() {
-        return view('AdminPusat.Pemberdayaan.dashboardAdminPusatPemberdayaan');
+    public function dashboardPemberdayaanPusat() {
+        // Menghitung jumlah anak aktif
+        $anakAktifCount = Anak::where('status_validasi', 'Aktif')->count();
+
+        // Menghitung jumlah anak belum aktif (status "Tidak Aktif", "Ditangguhkan", atau "Ditolak")
+        $anakBelumAktifCount = Anak::whereIn('status_validasi', ['Tidak Aktif', 'Ditangguhkan', 'Ditolak'])->count();
+
+        // Menghitung jumlah data survey yang sudah diinput
+        $surveyCount = Survey::whereNotNull('hasil_survey')->count();
+
+        // Menghitung jumlah data keluarga yang sudah terdaftar
+        $keluargaCount = Keluarga::count();
+
+        return view('AdminPusat.Pemberdayaan.dashboardAdminPusatPemberdayaan', compact(
+            'anakAktifCount', 'anakBelumAktifCount', 'surveyCount', 'keluargaCount'
+        ));
+    }
+
+    public function dashboardKeuanganPusat() {
+        // Menghitung total data keuangan
+        $totalKeuangan = Keuangan::count();
+    
+        return view('AdminPusat.Keuangan.dashboardAdminPusatKeuangan', compact('totalKeuangan'));
+    }
+    
+    public function dashboardBeritaPusat() {
+        $totalBerita = Berita::count();
+        return view('AdminPusat.Berita.dashboardAdminPusatBerita', compact('totalBerita'));
     }
 
     public function dashboardReportPusat() {
         return view('AdminPusat.Report.dashboardAdminPusatReport');
     }
 
-    public function dashboardKeuanganPusat() {
-        return view('AdminPusat.Keuangan.dashboardAdminPusatKeuangan');
-    }
-
-    public function dashboardBeritaPusat() {
-        return view('AdminPusat.Berita.dashboardAdminPusatBerita');
-    }
+   
 }
